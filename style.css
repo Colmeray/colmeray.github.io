@@ -1,0 +1,15 @@
+h1 {
+  color: rgb(54, 85, 156);
+  font-size: 50px;
+}
+
+h2 {
+  color: rgb(126, 183, 39);
+  font-size: 199px;
+}
+
+
+.topbar {
+    background-color: #222;
+    padding: 20px;
+}
