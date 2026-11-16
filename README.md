@@ -1,6 +1,8 @@
-# D.E.A.T.H. energy calculator
+# D.E.A.T.H. — poster and energy model
 
-A compact, static calculator based on the quantitative analysis in `assets/exam-poster.pdf`. English is the default; DA/EN switches the whole interface, number formatting and validation messages. The language choice is saved locally. `?lang=da` or `?lang=en` selects a language directly.
+A static project website matching the supplied `DEATH_poster_overleaf.pdf`, included as `assets/exam-poster.pdf`. The dark title band, annotated drone drawing, red section numbers and three-column concept layout follow the poster. The four sections cover the problem, proposed navigation loop, quantitative analysis and conclusion, followed by the interactive calculator, forest illustration, candidate hardware and references.
+
+English is the default; DA/EN switches the interface, number formatting and validation messages. The language choice is saved locally. `?lang=da` or `?lang=en` selects a language directly. The responsive layout uses local HTML, CSS, JavaScript and SVG without external fonts or a build step.
 
 Run in this directory:
 
