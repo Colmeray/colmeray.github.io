@@ -1,5 +1,6 @@
 import { calculate } from './energy-model.mjs';
 import { t, localeFor } from './i18n.mjs';
+import { createForestDemo } from './forest-demo.mjs';
 
 const form = document.querySelector('#energy-form');
 const inputs = [...form.querySelectorAll('input')];
@@ -12,8 +13,10 @@ let language = 'en';
 let format;
 let percent;
 let signed;
+const demo = createForestDemo(document.querySelector('#training-demo'));
 
 function clearResults(message) {
+  demo.update({ language, valid: false });
   outputs.forEach(el => { el.textContent = '—'; });
   document.querySelectorAll('.bar-track > span').forEach(el => { el.style.width = '0%'; });
   error.hidden = false;
@@ -46,6 +49,7 @@ function render() {
   catch { clearResults(t(language, 'invalidGeneric')); return; }
   error.hidden = true;
   error.textContent = '';
+  demo.update({ language, valid: true, ...values });
   put('gain', signed.format(result.rangeGain));
   put('flight', format(result.flightMinutes));
   put('baseline-flight', format(result.baselineMinutes));

@@ -88,6 +88,18 @@
       </section>
     </div>
 
+    <section class="training-panel" id="training-demo" aria-labelledby="training-title">
+      <div class="training-heading"><div><span class="training-eyebrow" data-i18n="trainingEyebrow">TRAINING SOURCE / FORESTSCAN</span><h2 id="training-title" data-i18n="trainingTitle">From forest structure to smarter flight.</h2></div><a href="https://essd.copernicus.org/articles/18/1243/2026/" target="_blank" rel="noopener" data-i18n="trainingSource">ForestScan · Chavana-Bryant et al., 2026 ↗</a></div>
+      <div class="training-demo">
+        <div class="forest-scene"><canvas id="forest-canvas" role="img" aria-label="Illustrative drone flight through a synthetic forest point cloud. The navigator wakes during the configured active part of the cycle." data-i18n-aria-label="animationDescription"></canvas><span class="scene-label" data-i18n="syntheticScene">SYNTHETIC SCENE · ILLUSTRATION</span><div class="scene-controls"><button type="button" id="animation-toggle" data-i18n="pauseAnimation">Pause</button><button type="button" id="animation-replay" data-i18n="replayAnimation">Replay ↺</button></div></div>
+        <div class="gate-demo"><div class="gate-state"><span class="gate-indicator"></span><strong id="animation-state">Routine — navigator asleep</strong></div>
+          <div class="gate-pipeline" aria-hidden="true"><div class="pipeline-node"><svg viewBox="0 0 32 32"><rect x="4" y="9" width="24" height="16" rx="3"/><circle cx="17" cy="17" r="5"/><path d="m8 9 3-4h8l3 4"/></svg><span data-i18n="demoCamera">Camera</span></div><span class="pipeline-connection"><i></i></span><div class="pipeline-node snn-node"><img src="assets/chip.svg" alt="" width="31" height="31"><span>SNN</span></div><span class="pipeline-connection navigator-connection"><i></i></span><div class="pipeline-node navigator-node"><svg viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="20" rx="3"/><path d="M11 13h10m-10 6h6m-5-13V3m8 3V3m-8 23v3m8-3v3"/></svg><span data-i18n="demoNavigator">Navigator</span></div></div>
+          <div class="instant-power"><span data-i18n="instantPower">Instantaneous navigation power</span><strong id="animation-power">—</strong></div><p class="gate-caption" data-i18n="animationTiming">The awake-time slider sets the active share of each cycle.</p>
+        </div>
+      </div>
+      <p class="training-caption" data-i18n="trainingCaption">ForestScan provides forest LiDAR geometry. Illustrated training workflow: 3D scenes → simulated camera events → SNN. This animation uses generated points, not a dataset replay or a trained-model prediction.</p>
+    </section>
+
     <details class="model-notes"><summary><span data-i18n="formulas">The model & its assumptions</span><span aria-hidden="true">↗</span></summary><div class="model-content">
       <div><h3 data-i18n="powerFormula">Navigation power</h3><code>Pnav = Pcam + PSNN + f × Pheavy + (1 − f) × Psleep</code><p data-out="equation">—</p></div>
       <div><h3 data-i18n="flightFormula">Flight time & radius</h3><p data-i18n="flightEquation">Usable energy = battery × (1 − reserve / 100). Flight time = usable energy / total power × 60. Radius = speed × flight time / 120, including a return flight.</p></div>

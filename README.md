@@ -17,3 +17,7 @@ The poster's assumptions are examples, not flight measurements. Battery energy, 
 ```sh
 node energy-model.test.mjs
 ```
+
+The ForestScan training-source card cites Chavana-Bryant et al. (2026): https://essd.copernicus.org/articles/18/1243/2026/. ForestScan provides forest structure from LiDAR. The illustrated workflow is geometry → simulated camera events → SNN training; the website does not download ForestScan data, generate a training dataset or run a trained network.
+
+The canvas demo uses deterministic synthetic forest points. Its 12-second cycle follows the calculator's heavy-navigator awake percentage. Instantaneous power uses the selected camera/SNN power plus either heavy or sleep power; the calculator continues to show the cycle average. Pause/replay controls, DA/EN labels and reduced-motion handling are included. Animation stops while off screen or in a hidden tab.
