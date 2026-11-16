@@ -1,6 +1,7 @@
 import { calculate } from './energy-model.mjs';
 import { t, localeFor } from './i18n.mjs';
 import { createForestDemo } from './forest-demo.mjs';
+import { createModelSwitch } from './model-switch.mjs';
 
 const form = document.querySelector('#energy-form');
 const inputs = [...form.querySelectorAll('input')];
@@ -14,10 +15,13 @@ let format;
 let percent;
 let signed;
 const demo = createForestDemo(document.querySelector('#training-demo'));
+const modelSwitch = createModelSwitch(document.querySelector('.model-explorer'));
+const summaries = [...document.querySelectorAll('[data-summary]')];
 
 function clearResults(message) {
   demo.update({ language, valid: false });
   outputs.forEach(el => { el.textContent = '—'; });
+  summaries.forEach(el => { el.textContent = '—'; });
   document.querySelectorAll('.bar-track > span').forEach(el => { el.style.width = '0%'; });
   error.hidden = false;
   error.textContent = message;
@@ -51,6 +55,11 @@ function render() {
   error.textContent = '';
   demo.update({ language, valid: true, ...values });
   put('gain', signed.format(result.rangeGain));
+  summaries.forEach(el => {
+    el.textContent = el.dataset.summary === 'gain'
+      ? `${signed.format(result.rangeGain)}%`
+      : `${format(result.navigation, 2)} W`;
+  });
   put('flight', format(result.flightMinutes));
   put('baseline-flight', format(result.baselineMinutes));
   put('radius', format(result.radius));
@@ -81,6 +90,7 @@ function setLanguage(next, persist = false) {
   percent = new Intl.NumberFormat(locale, { style: 'percent', maximumFractionDigits: 1 });
   signed = new Intl.NumberFormat(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1, signDisplay: 'exceptZero' });
   document.documentElement.lang = language;
+  modelSwitch.setLanguage(language);
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(language, el.dataset.i18n); });
   for (const attribute of ['aria-label', 'content']) {
     document.querySelectorAll(`[data-i18n-${attribute}]`).forEach(el => {
@@ -112,3 +122,14 @@ form.addEventListener('input', render);
 form.addEventListener('change', render);
 form.addEventListener('reset', () => requestAnimationFrame(render));
 form.addEventListener('submit', event => { event.preventDefault(); render(); form.reportValidity(); });
+
+const sectionLinks = [...document.querySelectorAll('.mobile-nav a')];
+const sectionObserver = new IntersectionObserver(entries => {
+  const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+  if (!visible) return;
+  sectionLinks.forEach(link => {
+    if (link.hash === `#${visible.target.id}`) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+}, { rootMargin: '-5% 0px -55% 0px' });
+sectionLinks.forEach(link => sectionObserver.observe(document.querySelector(link.hash)));

@@ -2,113 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" data-i18n-content="description" content="D.E.A.T.H. — a milliwatt gatekeeper for emergency aid drones. Explore the concept and its interactive energy model.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" data-i18n-content="description" content="Explore how D.E.A.T.H. switches between low-power spiking AI and heavier models for emergency aid delivery.">
   <meta name="theme-color" content="#191919">
-  <title data-i18n="title">D.E.A.T.H. — Direct Emergency Aid Transport Hoverer</title>
+  <title>D.E.A.T.H. — Direct Emergency Aid Transport Hoverer</title>
   <link rel="icon" type="image/svg+xml" href="assets/chip.svg">
   <link rel="stylesheet" href="style.css">
   <script type="module" src="Script.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#calculator" data-i18n="skip">Skip to calculator</a>
-  <div class="masthead">
-    <header class="topbar page-width">
-      <a class="course-label" href="./">27020 BIOENGINEERING <span>· NEURO · GROUP [2]</span></a>
-      <div class="header-actions">
-        <nav aria-label="Main navigation" data-i18n-aria-label="mainNavigation"><a href="#concept" data-i18n="navConcept">The concept</a><a href="#calculator" data-i18n="navCalculator">Energy model</a></nav>
-        <a class="poster-link" href="assets/exam-poster.pdf" target="_blank" rel="noopener" data-i18n="poster">View poster ↗</a>
-        <div class="language-switch" role="group" aria-label="Language" data-i18n-aria-label="language">
-          <button type="button" lang="da" data-language="da" aria-label="Dansk" aria-pressed="false">DA</button><button type="button" lang="en" data-language="en" aria-label="English" aria-pressed="true">EN</button>
-        </div>
-      </div>
-    </header>
-    <div class="hero page-width">
-      <div class="hero-copy">
-        <h1>D.E.A.T.H.</h1>
-        <p class="project-name">Direct Emergency Aid Transport Hoverer</p>
-        <p class="hero-description" data-i18n="heroDescription">A milliwatt “gatekeeper” that wakes the heavy autopilot only when the flight gets difficult.</p>
-        <a class="hero-cta" href="#concept"><span data-i18n="discover">Discover the concept</span><span aria-hidden="true">↘</span></a>
-        <div class="team"><span class="team-label" data-i18n="projectTeam">PROJECT TEAM</span><ul><li>Chandler Desforges</li><li>Wilhelm Mortensen</li><li>Karoline Andersen</li><li>Oliver Colmer</li><li>Victor Schmidt</li><li>Gustav Bellaiche</li></ul></div>
-      </div>
-      <figure class="hero-figure">
-        <div class="system-diagram" role="img" aria-label="Drone carrying an event camera and a neuromorphic SNN processor. The camera sends sparse events to the processor; the drone is only the carrier." data-i18n-aria-label="systemDescription">
-          <svg viewBox="0 0 680 440" fill="none" aria-hidden="true">
-            <defs><clipPath id="event-cone"><path d="M440 228 664 120v210Z"/></clipPath></defs>
-            <path d="m440 228 224-108v210Z" fill="#a40000" fill-opacity=".055" stroke="#a40000" stroke-opacity=".7" stroke-dasharray="6 6"/>
-            <g stroke="#c3c3c3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m234 224-92-57m106 54-20-83m111 87 100-61m-106 54 28-81" stroke-width="6"/>
-              <path d="m223 255-22 42h-23m172-42 21 42h23" stroke-width="3"/><path d="m253 263 8 40m59-40-10 40" stroke-width="2"/>
-              <g fill="#ebebeb" fill-opacity=".8" stroke-width="2"><ellipse cx="139" cy="163" rx="98" ry="14"/><ellipse cx="227" cy="137" rx="78" ry="12"/><ellipse cx="442" cy="161" rx="98" ry="14"/><ellipse cx="365" cy="137" rx="78" ry="12"/><rect x="209" y="203" width="205" height="66" rx="30"/></g>
-              <path d="m139 148 1 31m87-54v25m216-3v30m-78-53v26" stroke-width="1"/><rect x="243" y="300" width="73" height="55" rx="6" fill="white" stroke-width="2"/>
-            </g>
-            <path d="M275 312h10v10h10v10h-10v10h-10v-10h-10v-10h10Z" fill="#b4b4b4"/>
-            <rect x="266" y="207" width="77" height="60" rx="9" stroke="#a40000" stroke-opacity=".4" stroke-width="2"/><rect x="278" y="216" width="52" height="42" rx="6" fill="#a40000"/>
-            <rect x="289" y="223" width="30" height="27" rx="4" stroke="white"/><path d="m293 237 6-1 3-8 4 15 4-8h5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M304 216v-87m26 108h84m27 12v116" stroke="#a40000" stroke-width="1.5"/><g fill="#a40000"><circle cx="304" cy="129" r="4"/><circle cx="441" cy="365" r="4"/></g>
-            <rect x="408" y="219" width="32" height="29" rx="8" fill="#191919"/><circle cx="441" cy="233" r="28" fill="white" fill-opacity=".55" stroke="#a40000" stroke-opacity=".35" stroke-width="2"/>
-            <circle cx="441" cy="233" r="14" fill="#a40000" stroke="white" stroke-width="4"/><circle cx="445" cy="229" r="4" fill="white"/>
-            <g clip-path="url(#event-cone)">
-              <g fill="#a40000"><circle cx="479" cy="224" r="3"/><circle cx="492" cy="213" r="3"/><circle cx="500" cy="233" r="3"/><circle cx="511" cy="200" r="3"/><circle cx="523" cy="250" r="3"/><circle cx="535" cy="221" r="3"/><circle cx="553" cy="181" r="3"/><circle cx="555" cy="270" r="3"/><circle cx="576" cy="203" r="3"/><circle cx="580" cy="243" r="3"/><circle cx="591" cy="285" r="3"/><circle cx="601" cy="174" r="3"/><circle cx="612" cy="229" r="3"/><circle cx="621" cy="263" r="3"/><circle cx="636" cy="153" r="3"/><circle cx="640" cy="305" r="3"/><circle cx="653" cy="223" r="3"/></g>
-              <g fill="#404040"><circle cx="472" cy="235" r="2.5"/><circle cx="483" cy="229" r="2.5"/><circle cx="489" cy="242" r="2.5"/><circle cx="500" cy="218" r="2.5"/><circle cx="509" cy="251" r="2.5"/><circle cx="513" cy="229" r="2.5"/><circle cx="523" cy="190" r="2.5"/><circle cx="530" cy="235" r="2.5"/><circle cx="542" cy="256" r="2.5"/><circle cx="548" cy="207" r="2.5"/><circle cx="562" cy="231" r="2.5"/><circle cx="565" cy="283" r="2.5"/><circle cx="577" cy="263" r="2.5"/><circle cx="585" cy="224" r="2.5"/><circle cx="599" cy="252" r="2.5"/><circle cx="605" cy="199" r="2.5"/><circle cx="619" cy="282" r="2.5"/><circle cx="628" cy="205" r="2.5"/><circle cx="642" cy="241" r="2.5"/></g>
-            </g>
-          </svg>
-          <div class="diagram-label processor-label"><strong data-i18n="processorLabel">NEUROMORPHIC SNN PROCESSOR</strong><span data-i18n="processorCaption">Decides when heavy navigation is needed</span></div>
-          <div class="diagram-label carrier-label"><strong data-i18n="carrierLabel">THE DRONE</strong><span data-i18n="carrierCaption">is only the carrier</span></div>
-          <div class="diagram-label camera-label"><strong data-i18n="eventCameraLabel">EVENT-BASED CAMERA</strong><span data-i18n="eventCameraCaption">Sees only change, at ~3 mW</span></div>
-        </div>
-        <figcaption data-i18n="systemCaption">Our product is the camera and the processor, not the drone. The dots are sparse events sent to the spiking network.</figcaption>
-      </figure>
-    </div>
-  </div>
-
-  <main class="page-width">
-    <div class="poster-grid" id="concept">
-      <section class="problem-section" aria-labelledby="problem-title">
-        <h2 class="section-heading" id="problem-title"><span class="section-number">1</span><span data-i18n="problemTitle">Problem</span></h2>
-        <p class="section-lead" data-i18n="problemIntro">Antivenom must arrive within hours. But snakebite victims are often farmers far from a stocked clinic.</p>
-        <p data-i18n="problemContext">In Peru, reaching remote communities means crossing dense terrain. An aid drone needs to fly far on a small battery.</p>
-        <dl class="burden-stats">
-          <div><dt>2.7 M</dt><dd><span data-i18n="envenomings">envenomings per year</span> <a href="#reference-1">[1]</a></dd></div>
-          <div><dt>138k</dt><dd><span data-i18n="deaths">deaths per year, upper estimate</span> <a href="#reference-1">[1]</a></dd></div>
-          <div><dt>−50%</dt><dd><span data-i18n="whoGoal">WHO goal for deaths and disabilities by 2030</span> <a href="#reference-2">[2]</a></dd></div>
-        </dl>
-        <p class="figure-caption" data-i18n="burdenCaption">Global burden of snakebite envenoming, as cited in the poster.</p>
-        <div class="sdg-list" aria-label="Sustainable Development Goals" data-i18n-aria-label="sdgLabel"><div><strong>3</strong><span data-i18n="sdg3">Good health and well-being</span></div><div><strong>10</strong><span data-i18n="sdg10">Reduced inequalities</span></div><div><strong>17</strong><span data-i18n="sdg17">Partnerships for the goals</span></div></div>
-        <a class="poster-card" href="assets/exam-poster.pdf" target="_blank" rel="noopener"><img src="assets/chip.svg" width="42" height="42" alt=""><span><strong data-i18n="readPoster">Read the full poster</strong><span data-i18n="posterCardCaption">The concept, calculations and sources</span></span><span aria-hidden="true">↗</span></a>
+  <a class="skip-link" href="#model-switch" data-i18n="skipModels">Skip to model illustration</a>
+  <header class="topbar page-width">
+    <a class="brand" href="./"><img src="assets/chip.svg" width="29" height="29" alt=""><span>D.E.A.T.H.</span></a>
+    <div class="language-switch" role="group" aria-label="Language" data-i18n-aria-label="language"><button type="button" lang="da" data-language="da" aria-label="Dansk" aria-pressed="false">DA</button><button type="button" lang="en" data-language="en" aria-label="English" aria-pressed="true">EN</button></div>
+  </header>
+  <main>
+    <div class="hero-band">
+      <section class="hero page-width" aria-labelledby="hero-title">
+        <div class="hero-copy"><p class="eyebrow" data-i18n="heroEyebrow">NEUROMORPHIC EMERGENCY AID</p><h1 id="hero-title"><span data-i18n="heroLine1">The right model.</span><em data-i18n="heroLine2">At the right moment.</em></h1><p class="hero-description" data-i18n="heroDescription">A tiny chip keeps watch. More powerful AI wakes when the mission needs it. More battery can go towards the journey.</p><a class="hero-cta" href="#model-switch"><span data-i18n="seeSwitch">See the models switch</span><span aria-hidden="true">↓</span></a><p class="concept-label" data-i18n="conceptLabel">A concept for aid deliveries to remote communities in Peru.</p></div>
+        <div class="hero-summary"><div class="hero-signal" aria-hidden="true"><span class="signal-camera"><svg viewBox="0 0 40 40"><rect x="5" y="11" width="30" height="23" rx="5"/><circle cx="20" cy="22" r="7"/><path d="m11 11 4-5h11l4 5"/></svg></span><span class="signal-line"></span><span class="signal-chip"><img src="assets/chip.svg" width="66" height="66" alt=""></span><span class="signal-line"></span><span class="signal-gpu"><svg viewBox="0 0 40 40"><rect x="7" y="7" width="26" height="26" rx="5"/><path d="M13 16h14m-14 6h14m-14 6h8M14 3v4m12-4v4M14 33v4m12-4v4"/></svg><small>z z</small></span></div><p data-i18n="heroSignalCaption">Sense → decide → wake only when needed.</p><div class="hero-metrics"><div><strong>~76%</strong><span data-i18n="heroSaving">less navigation power</span></div><div><strong>+23%</strong><span data-i18n="heroRange">range on a light drone</span></div></div><a href="#calculator" class="assumption-link" data-i18n="heroExample">Poster example, not a flight measurement. Explore the assumptions ↗</a></div>
       </section>
-      <section class="solution-section" aria-labelledby="solution-title">
-        <h2 class="section-heading" id="solution-title"><span class="section-number">2</span><span data-i18n="solutionTitle">Solution</span></h2>
-        <p class="section-lead" data-i18n="solutionIntro">Drones run heavy navigation for the whole trip, though most of it is trivial. We gate it with a milliwatt SNN fed by an event camera.</p>
-        <ol class="navigation-steps">
-          <li><span class="step-dot" aria-hidden="true">01</span><div><strong data-i18n="sparseTitle">Sparse mode</strong><p data-i18n="sparseText">The autopilot flies waypoints. The SNN watches for change at milliwatt power; LiDAR ranges forward and downward.</p></div></li>
-          <li class="active-step"><span class="step-dot" aria-hidden="true">02</span><div><strong data-i18n="denseTitle">Obstacle close? Take over.</strong><p data-i18n="denseText">The SNN reads the event stream and sends velocity setpoints via MAVLink.</p></div></li>
-          <li><span class="step-dot" aria-hidden="true">03</span><div><strong data-i18n="clearTitle">Clear for N seconds?</strong><p data-i18n="clearText">Hand control back. The autopilot flies again; the SNN returns to watching.</p></div></li>
-        </ol>
-        <div class="safety-note"><span aria-hidden="true">↗</span><p><strong data-i18n="safetyTitle">Safety override</strong><span data-i18n="safetyText">If takeover fails near an obstacle, hold or climb out.</span></p></div>
-        <div class="destination-phase"><h3 data-i18n="destinationTitle">At the destination · VLM tier</h3><div><span data-i18n="destinationWake">Wake GPU + VLM</span><span aria-hidden="true">→</span><span data-i18n="destinationPlan">Plan the drop</span><span aria-hidden="true">→</span><span data-i18n="destinationDeliver">Deliver & return</span></div><p data-i18n="destinationCaption">The VLM sets the path. The SNN stays on and can override it to avoid collisions.</p></div>
-        <div class="key-idea"><span data-i18n="keyIdea">KEY IDEA</span><p data-i18n="keyIdeaText">The heavy model sleeps ~80% of the flight.</p><small data-i18n="keyIdeaCaption">New: the learned wake-up policy. Established: all hardware.</small></div>
-      </section>
-      <div class="findings-column">
-        <section aria-labelledby="analysis-title">
-          <h2 class="section-heading" id="analysis-title"><span class="section-number">3</span><span data-i18n="analysisTitle">Quantitative analysis</span></h2>
-          <div class="poster-equation"><strong data-i18n="rangeRelation">Range ∝ battery energy / total power</strong><p>P<sub>nav</sub> = P<sub>cam</sub> + P<sub>SNN</sub> + f · P<sub>heavy</sub><br>+ (1 − f) · P<sub>sleep</sub></p><p>≈ 0.004 + 2.0 + 0.4 = <b>2.4 W</b></p></div>
-          <p class="figure-caption" data-i18n="posterAssumptions">Poster example: heavy navigator awake 20% of the time; sleep power 0.5 W. Illustrative assumptions.</p>
-          <div class="poster-bars" aria-label="Poster example: 10 watts always on, 2.4 watts with D.E.A.T.H." data-i18n-aria-label="posterBarsLabel"><div><span data-i18n="alwaysOn">Always on</span><i></i><strong>10 W</strong></div><div><span>D.E.A.T.H.</span><i></i><strong>2.4 W</strong></div></div>
-          <table class="range-table"><caption class="sr-only" data-i18n="rangeTableCaption">Range gain in the poster’s three propulsion examples</caption><thead><tr><th scope="col" data-i18n="droneClassColumn">Drone class</th><th scope="col">P<sub>prop</sub></th><th scope="col" data-i18n="rangeGainColumn">Range gain</th></tr></thead><tbody><tr><th scope="row" data-i18n="lightDrone">Light (≈1–2 kg)</th><td>30 W</td><td>+23%</td></tr><tr><th scope="row" data-i18n="medium">Medium</th><td>60 W</td><td>+12%</td></tr><tr><th scope="row" data-i18n="heavyCarrier">Heavy carrier</th><td>150 W</td><td>+5%</td></tr></tbody></table>
-          <a class="text-link" href="#calculator"><span data-i18n="tryModel">Try the interactive energy model</span><span aria-hidden="true">↓</span></a>
-        </section>
-        <section class="conclusion-section" aria-labelledby="conclusion-title">
-          <h2 class="section-heading" id="conclusion-title"><span class="section-number">4</span><span data-i18n="conclusionTitle">Conclusion</span></h2>
-          <div class="saving-banner"><strong>−76%</strong><span data-i18n="savingBanner">navigation power in the poster’s example</span></div>
-          <p data-i18n="conclusionText">The range gain is largest on light drones (+23%) and small on heavy carriers (+5%). The concept uses existing hardware; the wake-up policy still needs training and validation.</p>
-          <p class="next-step"><strong data-i18n="nextLabel">Next</strong><span data-i18n="nextText">Train in simulation, then field-test with Peruvian health authorities.</span></p>
-        </section>
-      </div>
     </div>
 
+    <div class="page-width">
+      <section class="model-section section-space" id="model-switch" aria-labelledby="switch-title">
+        <div class="section-intro" id="concept"><p class="eyebrow" data-i18n="switchEyebrow">01 / THE HANDOVER</p><h2 id="switch-title" data-i18n="switchTitle">What happens during a flight?</h2><p data-i18n="switchIntro">Tap a situation. See who is in control, which models are running, and when the GPU wakes.</p></div>
+        <div class="model-explorer" data-scenario="cruise">
+          <div class="scenario-buttons" role="group" aria-label="Flight situations" data-i18n-aria-label="scenarioGroup"><button type="button" data-scenario-select="cruise" aria-pressed="true"><span aria-hidden="true">01</span><span data-i18n="scenarioCruise">Clear route</span></button><button type="button" data-scenario-select="obstacle" aria-pressed="false"><span aria-hidden="true">02</span><span data-i18n="scenarioObstacle">Obstacle</span></button><button type="button" data-scenario-select="uncertain" aria-pressed="false"><span aria-hidden="true">03</span><span data-i18n="scenarioUncertain">Uncertain</span></button><button type="button" data-scenario-select="delivery" aria-pressed="false"><span aria-hidden="true">04</span><span data-i18n="scenarioDelivery">Delivery</span></button></div>
+          <div class="explorer-body">
+            <div class="flight-illustration">
+              <div class="scene-topline"><span data-i18n="illustrationLabel">CONCEPT ILLUSTRATION</span><span class="gpu-badge" id="gpu-state">GPU asleep</span></div>
+              <div class="flight-scene" role="img" aria-labelledby="scenario-title" aria-describedby="scenario-text">
+                <svg viewBox="0 0 600 280" fill="none" aria-hidden="true">
+                  <defs><pattern id="scene-grid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#d8d2cc"/></pattern><g id="scene-tree"><path d="M0 57V5m0 16-14-12m14 25 15-14" stroke="#ada99b" stroke-width="4" stroke-linecap="round"/><path d="M0-19c-30-2-37 30-17 38-14 24 28 37 33 12 26-2 26-35 6-38C24-18 11-26 0-19Z" fill="#e2e6db" stroke="#a4af95" stroke-width="1.5"/></g></defs>
+                  <rect width="600" height="280" fill="url(#scene-grid)"/>
+                  <path d="M0 235h600" stroke="#dad4ce"/>
+                  <use href="#scene-tree" x="59" y="67"/><use href="#scene-tree" x="135" y="139"/><use href="#scene-tree" x="470" y="68"/><use href="#scene-tree" x="534" y="162"/>
+                  <g class="scene-obstacle"><use href="#scene-tree" x="344" y="126"/><circle cx="345" cy="146" r="49" stroke="#a40000" stroke-dasharray="4 6" opacity=".45"/></g>
+                  <path class="route route-cruise" d="M75 193H521" stroke="#a40000" stroke-width="3" stroke-dasharray="7 7"/>
+                  <path class="route route-obstacle" d="M75 193h146c46 0 32-115 113-115s50 115 109 115h78" stroke="#a40000" stroke-width="3" stroke-dasharray="7 7"/>
+                  <g class="route route-uncertain"><path d="M75 193h169" stroke="#a40000" stroke-width="3" stroke-dasharray="7 7"/><circle cx="277" cy="177" r="55" stroke="#a40000" stroke-width="2" stroke-dasharray="5 7"/><path d="M343 161h33m-17-17v34" stroke="#a40000" stroke-width="4" stroke-linecap="round"/></g>
+                  <path class="route route-delivery" d="M75 193h252c49 0 66 22 108 22h56" stroke="#a40000" stroke-width="3" stroke-dasharray="7 7"/>
+                  <g class="landing-pad"><ellipse cx="491" cy="221" rx="46" ry="15" fill="#f5e2df" stroke="#a40000"/><path d="M480 217v8m21-8v8m-21-4h21" stroke="#a40000" stroke-width="3"/><rect x="477" y="177" width="27" height="23" rx="4" fill="white" stroke="#a40000"/><path d="M486 183h8v12h-8zm-3 4h14v4h-14z" fill="#a40000"/></g>
+                  <g class="scene-drone"><ellipse cx="0" cy="40" rx="29" ry="7" fill="#1b1b1b" opacity=".08"/><path d="m-27-13 54 26m-54 0 54-26" stroke="#6c6a66" stroke-width="6" stroke-linecap="round"/><g fill="#fbfaf9" stroke="#7b7973" stroke-width="2"><ellipse cx="-29" cy="-13" rx="23" ry="7"/><ellipse cx="29" cy="-13" rx="23" ry="7"/><ellipse cx="-29" cy="13" rx="23" ry="7"/><ellipse cx="29" cy="13" rx="23" ry="7"/></g><rect x="-14" y="-13" width="28" height="28" rx="7" fill="#191919"/><rect x="-7" y="-6" width="14" height="14" rx="3" fill="#a40000"/><path d="m-12 13-4 22m28-22 4 22" stroke="#77736e" stroke-width="2"/><path d="m0 16 0 11" stroke="#77736e" stroke-width="2"/><rect x="-11" y="27" width="22" height="18" rx="3" fill="white" stroke="#8b8178"/><path d="M0 30v12m-6-6H6" stroke="#a40000" stroke-width="3"/></g>
+                </svg>
+              </div>
+              <div class="controller-strip"><span data-i18n="controlLabel">MOTION CONTROL</span><strong id="control-owner">Waypoint autopilot</strong></div>
+            </div>
+            <div class="model-stack">
+              <div class="model-card" data-model="snn" data-level="watching"><span class="model-icon"><img src="assets/chip.svg" width="35" height="35" alt=""></span><div><strong>SNN</strong><span data-i18n="snnRole">Always-on perception + local avoidance</span></div><span class="model-status" data-model-status="snn">Watching</span></div>
+              <div class="model-card" data-model="navigation" data-level="sleep"><span class="model-icon" aria-hidden="true">N</span><div><strong data-i18n="navModel">Heavy navigator</strong><span data-i18n="navRole">GPU · fallback for difficult situations</span></div><span class="model-status" data-model-status="navigation">Asleep</span></div>
+              <div class="model-card" data-model="vlm" data-level="sleep"><span class="model-icon" aria-hidden="true">V</span><div><strong>VLM</strong><span data-i18n="vlmRole">GPU · plans the delivery approach</span></div><span class="model-status" data-model-status="vlm">Asleep</span></div>
+              <p class="flight-controller-note" data-i18n="flightControllerNote">The flight controller keeps stabilising the drone in every mode. “Sleep” refers to heavy AI, not the flight controller.</p>
+            </div>
+          </div>
+          <div class="scenario-story"><p class="scenario-title" id="scenario-title">Routine flight</p><p id="scenario-text">The autopilot follows waypoints. The event camera and SNN keep watch while the heavy AI sleeps.</p><p class="transition-note" id="scenario-transition">Obstacle close → SNN avoidance. Low confidence → wake the heavy navigator.</p></div>
+          <p class="sr-only" id="switch-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        </div>
+        <p class="section-note" data-i18n="switchConceptNote">Proposed control logic, not a live drone or a trained-model prediction. Detection thresholds, wake-up delay and safe handover still need testing.</p>
+      </section>
+
+      <section class="chip-section section-space" id="chip" aria-labelledby="chip-title">
+        <div class="section-intro"><p class="eyebrow" data-i18n="chipEyebrow">02 / INSIDE THE CHIP</p><h2 id="chip-title" data-i18n="chipTitle">The small chip that keeps watch.</h2><p data-i18n="chipIntro">A spiking neural network (SNN) processes short electrical events called spikes. Our concept uses it to recognise when the flight needs a different kind of control.</p></div>
+        <div class="chip-layout">
+          <article class="speck-card"><div class="candidate-label" data-i18n="chipCandidate">HARDWARE CANDIDATE</div><div class="chip-art" aria-hidden="true"><div class="chip-trace trace-left"></div><div class="chip-package"><span>SynSense</span><strong>Speck™</strong><div class="neuron-grid"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><small>DVS + SNN</small></div><div class="chip-trace trace-right"></div></div><h3>SynSense Speck</h3><p data-i18n="speckIntro">An event camera and a neuromorphic processor on one chip. The Speck family is a concrete candidate for testing the SNN part of our design.</p><dl class="chip-specs"><div><dt>128 × 128</dt><dd data-i18n="specCamera">integrated DVS pixels</dd></div><div><dt>9</dt><dd data-i18n="specLayers">SNN processing cores</dd></div><div><dt>~0.32 M</dt><dd data-i18n="specNeurons">configurable spiking neurons</dd></div></dl><a href="https://github.com/synsense/sinabs/blob/develop/docs/speck/overview.md" class="source-link" target="_blank" rel="noopener" data-i18n="speckSource">Specs: SynSense / Sinabs documentation ↗</a></article>
+          <div class="chip-explainer"><h3 data-i18n="chipHowTitle">From a change in light to a decision</h3><ol class="chip-steps"><li><span>1</span><div><strong data-i18n="chipStep1Title">The camera notices change</strong><p data-i18n="chipStep1Text">An event sensor reports local brightness changes with a position and timestamp. It does not need to send a full image for each update.</p></div></li><li><span>2</span><div><strong data-i18n="chipStep2Title">The SNN processes the events</strong><p data-i18n="chipStep2Text">Spiking neurons accumulate inputs and emit spikes when a threshold is reached. Event-driven hardware concentrates work around incoming activity.</p></div></li><li><span>3</span><div><strong data-i18n="chipStep3Title">Our policy requests a handover</strong><p data-i18n="chipStep3Text">The proposed policy uses that output to keep watching, avoid locally, or request heavier navigation. Near the destination, a VLM plans the drop.</p></div></li></ol><p class="chip-power-note" data-i18n="chipPowerNote">Why milliwatts? Sparse sensing and asynchronous processing can reduce computation. Actual power depends on the network, event rate and hardware configuration.</p><a href="https://www.synsense.ai/products/speck-2/" class="source-link" target="_blank" rel="noopener" data-i18n="chipPowerSource">Speck overview · SynSense ↗</a></div>
+        </div>
+        <details class="technical-details"><summary><span data-i18n="hardwareOptions">Camera, GPU and other chip options</span><span aria-hidden="true">+</span></summary><div class="details-body hardware-options"><article><h3>Prophesee GenX320</h3><p data-i18n="genxText">A separate 320 × 320 event sensor, with operating power from 3 mW in the manufacturer’s documentation. Interfaces and event rate affect the real power budget; connecting it to a processor needs integration work.</p><a class="source-link" href="https://docs.prophesee.ai/stable/hw/sensors/genx320.html" target="_blank" rel="noopener">Prophesee ↗</a></article><article><h3>NVIDIA Jetson Orin Nano</h3><p data-i18n="jetsonText">A GPU computer for the heavier models. The Super developer kit supports 7–25 W power configurations. That is a module power budget, not a measured draw for our flight model.</p><a class="source-link" href="https://docs.nvidia.com/jetson/orin-nano-devkit/user-guide/index.html" target="_blank" rel="noopener">NVIDIA ↗</a></article><article><h3>Intel Loihi 2</h3><p data-i18n="loihiText">A neuromorphic research alternative mentioned in the poster. Access is through Intel’s research programme; it is not a retail substitute for a Speck module.</p><a class="source-link" href="https://intel-ncl.atlassian.net/wiki/spaces/INRC/pages/1810432001/" target="_blank" rel="noopener">Intel INRC ↗</a></article></div></details>
+        <p class="section-note" data-i18n="chipModelNote">The energy model below assumes a separate camera (3 mW) and SNN (1 mW). These are poster inputs, not measurements of an integrated Speck system. The trained policy and drone integration remain project work.</p>
+      </section>
     <section class="calculator-section" id="calculator" aria-labelledby="calculator-title">
       <div class="page-heading"><div><p class="eyebrow" data-i18n="modelEyebrow">THE NUMBERS, IN YOUR HANDS</p><h2 id="calculator-title"><span data-i18n="headline">Less compute.</span> <em data-i18n="headlineAccent">More range.</em></h2></div><p data-i18n="intro">Wake the heavy navigator only when needed. See what it saves.</p></div>
+      <div class="calculator-live"><span data-i18n="rangeGainColumn">Range gain</span><strong data-summary="gain">+23.4%</strong><span class="live-nav-power"><span data-i18n="comparison">Navigation power</span> <b data-summary="navigation">2.40 W</b></span></div>
       <div class="workspace">
         <section class="input-panel" aria-labelledby="input-title">
           <div class="panel-heading"><h3 id="input-title" data-i18n="inputs">Your setup</h3><span class="section-index">01 / INPUT</span></div>
@@ -116,7 +81,7 @@
             <fieldset class="preset-fieldset"><legend data-i18n="droneClass">Propulsion examples from the poster</legend><div class="presets" role="group" aria-label="Propulsion presets" data-i18n-aria-label="presetGroup"><button type="button" data-preset="30" aria-pressed="true"><span data-i18n="light">Light</span><small>30 W</small></button><button type="button" data-preset="60" aria-pressed="false"><span data-i18n="medium">Medium</span><small>60 W</small></button><button type="button" data-preset="150" aria-pressed="false"><span data-i18n="heavyClass">Heavy</span><small>150 W</small></button></div></fieldset>
             <div class="input-grid"><label class="field"><span data-i18n="propulsion">Propulsion power</span><span class="input-wrap"><input type="number" name="propulsion" min="0.1" max="100000" step="any" value="30" required inputmode="decimal"><span>W</span></span></label><label class="field"><span data-i18n="heavy">Heavy navigator</span><span class="input-wrap"><input type="number" name="heavy" min="0.001" max="10000" step="any" value="10" required inputmode="decimal"><span>W</span></span></label></div>
             <label class="duty-field" for="awake"><span><span data-i18n="awake">Heavy navigator awake</span><output id="awake-value" for="awake">20%</output></span><input id="awake" name="awake" type="range" min="0" max="100" step="1" value="20"><span class="range-labels"><span data-i18n="mostlyAsleep">Mostly asleep</span><span data-i18n="alwaysOn">Always on</span></span></label>
-            <div class="battery-inputs"><p class="group-label" data-i18n="flightInputs">For the flight estimate</p><div class="input-grid"><label class="field"><span data-i18n="battery">Battery energy</span><span class="input-wrap"><input type="number" name="battery" min="0.01" max="100000" step="any" value="20" required inputmode="decimal"><span>Wh</span></span></label><label class="field"><span data-i18n="speed">Ground speed</span><span class="input-wrap"><input type="number" name="speed" min="0.1" max="1000" step="any" value="36" required inputmode="decimal"><span>km/h</span></span></label></div></div>
+            <details class="flight-details"><summary><span data-i18n="flightInputs">For the flight estimate</span><span aria-hidden="true">+</span></summary><div class="input-grid"><label class="field"><span data-i18n="battery">Battery energy</span><span class="input-wrap"><input type="number" name="battery" min="0.01" max="100000" step="any" value="20" required inputmode="decimal"><span>Wh</span></span></label><label class="field"><span data-i18n="speed">Ground speed</span><span class="input-wrap"><input type="number" name="speed" min="0.1" max="1000" step="any" value="36" required inputmode="decimal"><span>km/h</span></span></label></div></details>
             <details class="advanced"><summary><span data-i18n="advanced">Sensors, sleep & reserve</span><span aria-hidden="true">+</span></summary><div class="input-grid"><label class="field"><span data-i18n="camera">Event camera</span><span class="input-wrap"><input type="number" name="camera" min="0" max="1000000" step="any" value="3" required inputmode="decimal"><span>mW</span></span></label><label class="field"><span data-i18n="snn">SNN gatekeeper</span><span class="input-wrap"><input type="number" name="snn" min="0" max="1000000" step="any" value="1" required inputmode="decimal"><span>mW</span></span></label><label class="field"><span data-i18n="sleep">Navigator in sleep</span><span class="input-wrap"><input type="number" name="sleep" min="0" max="10000" step="any" value="0.5" required inputmode="decimal"><span>W</span></span></label><label class="field"><span data-i18n="reserve">Battery reserve</span><span class="input-wrap"><input type="number" name="reserve" min="0" max="99" step="any" value="20" required inputmode="decimal"><span>%</span></span></label></div></details>
             <div class="form-footer"><span data-i18n="example">Illustrative values, not flight measurements.</span><button type="reset" data-i18n="reset">Reset ↺</button></div><p class="error-message" id="form-error" role="alert" hidden></p><noscript><p class="error-message">Enable JavaScript to use the calculator. / Slå JavaScript til for at bruge beregneren.</p></noscript>
           </form>
@@ -134,6 +99,7 @@
       <details class="model-notes"><summary><span data-i18n="formulas">The model & its assumptions</span><span aria-hidden="true">↗</span></summary><div class="model-content"><div><h3 data-i18n="powerFormula">Navigation power</h3><code>Pnav = Pcam + PSNN + f × Pheavy + (1 − f) × Psleep</code><p data-out="equation">—</p></div><div><h3 data-i18n="flightFormula">Flight time & radius</h3><p data-i18n="flightEquation">Usable energy = battery × (1 − reserve / 100). Flight time = usable energy / total power × 60. Radius = speed × flight time / 120, including a return flight.</p></div><div><h3 data-i18n="assumptionsTitle">Read the estimates correctly</h3><p data-i18n="assumptions">The poster’s example supplies the navigation and propulsion values. Battery, speed and reserve are additional examples. Propulsion and speed stay constant; wind, wake-up latency, extra avionics and delivery time are excluded.</p><p data-i18n="gainEquation">Range gain = (baseline total power / gated total power − 1) × 100. Navigation savings apply to computing only.</p></div></div></details>
     </section>
 
+<details class="training-disclosure technical-details section-space"><summary><span data-i18n="trainingDisclosure">How we would train it · forest illustration</span><span aria-hidden="true">+</span></summary>
     <section class="training-panel" id="training-demo" aria-labelledby="training-title">
       <div class="training-heading"><div><span class="eyebrow" data-i18n="trainingEyebrow">TRAINING SOURCE / FORESTSCAN</span><h2 id="training-title" data-i18n="trainingTitle">From forest structure to smarter flight.</h2></div><a href="https://essd.copernicus.org/articles/18/1243/2026/" target="_blank" rel="noopener" data-i18n="trainingSource">ForestScan · Chavana-Bryant et al., 2026 ↗</a></div>
       <div class="training-demo"><div class="forest-scene"><canvas id="forest-canvas" role="img" aria-label="Illustrative drone flight through a synthetic forest point cloud. The navigator wakes during the configured active part of the cycle." data-i18n-aria-label="animationDescription"></canvas><span class="scene-label" data-i18n="syntheticScene">SYNTHETIC SCENE · ILLUSTRATION</span><div class="scene-controls"><button type="button" id="animation-toggle" data-i18n="pauseAnimation">Pause</button><button type="button" id="animation-replay" data-i18n="replayAnimation">Replay ↺</button></div></div>
@@ -141,9 +107,12 @@
       </div><p class="training-caption" data-i18n="trainingCaption">ForestScan provides forest LiDAR geometry. Illustrated training workflow: 3D scenes → simulated camera events → SNN. This animation uses generated points, not a dataset replay or a trained-model prediction.</p>
     </section>
 
-    <section class="hardware-section" aria-labelledby="hardware-title"><div><p class="eyebrow" data-i18n="hardwareEyebrow">EXISTING HARDWARE. A NEW WAKE-UP POLICY.</p><h2 id="hardware-title" data-i18n="hardwareTitle">Built on available components.</h2><p data-i18n="hardwareIntro">Candidate hardware from the poster. The power figures are component examples, not measurements of a complete flight system.</p></div><div class="table-wrap"><table class="hardware-table"><thead><tr><th scope="col" data-i18n="functionColumn">Function</th><th scope="col" data-i18n="candidateColumn">Candidate</th><th scope="col" data-i18n="powerColumn">Power</th></tr></thead><tbody><tr><th scope="row" data-i18n="camera">Event camera</th><td>Prophesee GenX320</td><td>~3 mW <a href="#reference-3">[3]</a></td></tr><tr><th scope="row" data-i18n="snn">SNN gatekeeper</th><td>SynSense Speck / Intel Loihi 2</td><td>&lt;1–5 mW <a href="#reference-4">[4]</a><a href="#reference-6">[6]</a></td></tr><tr><th scope="row" data-i18n="heavy">Heavy navigator</th><td>NVIDIA Jetson Orin Nano</td><td>7–15 W <a href="#reference-5">[5]</a></td></tr></tbody></table></div></section>
-    <details class="references" id="references"><summary><span data-i18n="referencesTitle">References from the poster</span><span aria-hidden="true">+</span></summary><div class="references-content"><ol><li id="reference-1">WHO (2023). <cite>Snakebite envenoming</cite>, fact sheet.</li><li id="reference-2">WHO (2019). <cite>Snakebite: WHO targets 50% reduction in deaths and disabilities.</cite></li><li id="reference-3">Prophesee. <cite>GenX320 sensor</cite>, documentation.</li><li id="reference-4">Yao, M. et al. (2024). <cite>Spike-based dynamic computing with asynchronous sensing-computing neuromorphic chip.</cite> Nature Communications 15.</li><li id="reference-5">NVIDIA (2025). <cite>JetPack 6.2: Jetson Orin Nano power modes.</cite></li><li id="reference-6"><cite>A compact neuromorphic system for ultra energy-efficient, on-device robot localization.</cite> arXiv:2408.16754 (2024).</li></ol><p data-i18n="preliminaryNote">The poster is a concept proposal. Local snakebite incidence and time to antivenom in the Peru case study are still preliminary.</p><a class="text-link" href="assets/exam-poster.pdf" target="_blank" rel="noopener" data-i18n="poster">View poster ↗</a></div></details>
+
+</details>
+    <section class="project-section section-space" aria-labelledby="project-title"><p class="eyebrow" data-i18n="projectEyebrow">THE PROJECT</p><h2 id="project-title" data-i18n="projectTitle">More of the battery for the journey.</h2><p data-i18n="projectText">D.E.A.T.H. stands for Direct Emergency Aid Transport Hoverer. We are exploring how low-power perception could extend the reach of drones carrying urgent medical supplies in Peru.</p><p data-i18n="projectNext">The next step is simulation and validation of the wake-up policy, handovers and safety fallback before field testing.</p><a class="poster-card" href="assets/exam-poster.pdf" target="_blank" rel="noopener"><span><strong data-i18n="readPoster">Read the full poster</strong><span data-i18n="posterCardCaption">The concept, calculations and sources</span></span><span aria-hidden="true">↗</span></a><details class="technical-details"><summary><span data-i18n="teamAndSources">Project team & sources</span><span aria-hidden="true">+</span></summary><div class="details-body"><p>27020 Bioengineering · Neuro · Group 2</p><ul class="team-list"><li>Chandler Desforges</li><li>Wilhelm Mortensen</li><li>Karoline Andersen</li><li>Oliver Colmer</li><li>Victor Schmidt</li><li>Gustav Bellaiche</li></ul><p data-i18n="sourceNote">Hardware sources are linked beside the specifications. The supplied poster contains the original project references and example calculations.</p></div></details></section>
+    </div>
   </main>
-  <footer class="page-width"><a href="./" class="footer-brand">D.E.A.T.H.</a><span>DIRECT EMERGENCY AID TRANSPORT HOVERER</span><span data-i18n="footer">27020 · Bioengineering · Neuro · Group 2</span></footer>
+  <footer class="page-width"><a href="./" class="footer-brand">D.E.A.T.H.</a><span data-i18n="footer">27020 · Bioengineering · Neuro · Group 2</span></footer>
+  <nav class="mobile-nav" aria-label="Page sections" data-i18n-aria-label="pageSections"><a href="#model-switch" aria-current="location"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16m-5-4 5 4-5 4M20 17H4m5-4-5 4 5 4"/></svg><span data-i18n="navModels">Models</span></a><a href="#chip"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg><span data-i18n="navChip">The chip</span></a><a href="#calculator"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10m8 10V4m8 16v-7"/></svg><span data-i18n="navEnergy">Energy</span></a></nav>
 </body>
 </html>

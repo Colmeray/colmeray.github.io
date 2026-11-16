@@ -1,6 +1,10 @@
 # D.E.A.T.H. — poster and energy model
 
-A static project website matching the supplied `DEATH_poster_overleaf.pdf`, included as `assets/exam-poster.pdf`. The dark title band, annotated drone drawing, red section numbers and three-column concept layout follow the poster. The four sections cover the problem, proposed navigation loop, quantitative analysis and conclusion, followed by the interactive calculator, forest illustration, candidate hardware and references.
+A static website for the D.E.A.T.H. concept, designed primarily for phones. It keeps the poster’s black, white and red palette, with a shorter introduction, four interactive model-handover situations, a sourced chip explanation and the energy calculator. The supplied `DEATH_poster_overleaf.pdf` is included as `assets/exam-poster.pdf`.
+
+The model illustration distinguishes routine waypoint flight, local SNN avoidance, uncertain conditions requiring a heavy-navigation fallback, and destination planning with a VLM. The flight controller remains active in every mode. This is proposed control logic, not inference or a connection to a drone, and it is independent of the calculator’s duty-cycle illustration. Buttons update the scene, control owner, model statuses and GPU state; the selected situation survives a language change.
+
+The chip section uses SynSense Speck as a hardware candidate, with links to SynSense/Sinabs documentation. Integrated Speck sensing and the poster’s separate GenX320 + SNN example are distinguished. NVIDIA’s module power modes and Intel Loihi 2 research access are linked separately. These hardware specifications do not establish a measured flight-system power budget.
 
 English is the default; DA/EN switches the interface, number formatting and validation messages. The language choice is saved locally. `?lang=da` or `?lang=en` selects a language directly. The responsive layout uses local HTML, CSS, JavaScript and SVG without external fonts or a build step.
 
@@ -14,7 +18,7 @@ Open http://localhost:8000. No installation or build is needed. Use a webserver 
 
 The model compares always-on navigation with camera + SNN + duty-cycled heavy navigation, including sleep power. It estimates usable battery energy, flight time, round-trip delivery radius and total Wh/km. All parameters can be edited; light/medium/heavy presets only change propulsion power.
 
-The poster's assumptions are examples, not flight measurements. Battery energy, ground speed and reserve are additional example inputs. The model holds propulsion and speed constant and excludes extra avionics, wake-up overhead, wind and delivery time.
+The poster's assumptions are examples, not flight measurements. Battery energy, ground speed and reserve are additional example inputs. The model holds propulsion and speed constant and excludes extra avionics, wake-up overhead, wind and delivery time; the destination VLM workload is not modelled separately. A sticky result strip keeps the range gain visible while adjusting inputs on a phone. Additional flight/sensor inputs and the training illustration are expandable.
 
 ```sh
 node energy-model.test.mjs
