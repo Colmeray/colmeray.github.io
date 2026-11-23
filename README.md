@@ -17,6 +17,7 @@ English is the default. EN/DA translates the complete interface and formats numb
 
 - A locally drawn SVG introduces the navigation payload.
 - Four selectable flight situations show sparse flight, SNN obstacle avoidance, failed-takeover safety fallback and VLM destination planning. The flight controller stabilises in every mode. These are proposed control states, not inference or drone telemetry.
+- A 24-second guided mission animates the full route, obstacle avoidance, a stationary safety fallback and medical delivery. Play/pause, restart and a seekable timeline are available in both languages. It pauses when off screen or in a hidden tab; reduced-motion users see still scenes within each phase. The sequence is scripted and independent of the calculator's duty-cycle assumptions.
 - Six hardware panels link to documentation for GenX320, Loihi 2, TFmini-S, Jetson Orin Nano, LI-IMX678-MIPI-118H and Lepton 3.5. DJI Mavic 3 Classic is explained separately as a modelling reference.
 - An editable calculator compares navigation power, total power, flight duration and return-trip radius. It supports the three poster propulsion examples, one/two LiDAR units, sleep power and frame-camera gating.
 - A three-factor learning illustration previews the proposed reward modulation. It uses fixed illustrative learning-rate and trace values; it does not train a network. The missed-obstacle example acts on a stay-in-autopilot synapse, unlike the takeover examples.
