@@ -4,69 +4,63 @@ import { calculate, DEFAULTS } from './energy-model.mjs';
 
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} != ${expected}`);
 
-test('reproduces the poster navigation equation, including mW conversion', () => {
+test('reproduces the new poster with a 1 W SNN, 10% duty and frame-camera gating', () => {
   const r = calculate(DEFAULTS);
-  near(r.navigation, 2.404);
-  near(r.navigationSaving, 75.96);
-  near(r.baselinePower, 40);
-  near(r.totalPower, 32.404);
-  near(r.rangeGain, (40 / 32.404 - 1) * 100);
+  near(r.baselineNavigation, 11.45);
+  near(r.navigation, 2.778);
+  near(r.baselinePower, 141.45);
+  near(r.totalPower, 132.778);
+  near(r.navigationSaving, (1 - 2.778 / 11.45) * 100);
+  assert.deepEqual([130, 260, 650].map(propulsion =>
+    Number(calculate({ ...DEFAULTS, propulsion }).rangeGain.toFixed(1))), [6.5, 3.3, 1.3]);
 });
 
-test('matches the rounded light, medium and heavy gains in the poster', () => {
-  const gains = [30, 60, 150].map(propulsion => Math.round(calculate({ ...DEFAULTS, propulsion }).rangeGain));
-  assert.deepEqual(gains, [23, 12, 5]);
+test('a second lidar adds one sensor to both architectures', () => {
+  const single = calculate(DEFAULTS);
+  const double = calculate({ ...DEFAULTS, lidarCount: 2 });
+  near(double.baselinePower - single.baselinePower, 0.7);
+  near(double.totalPower - single.totalPower, 0.7);
+  assert.ok(double.rangeGain < single.rangeGain);
 });
 
-test('reserve, flight minutes, round-trip radius and Wh/km use consistent units', () => {
-  const r = calculate({ ...DEFAULTS, awake: 100, camera: 0, snn: 0 });
-  near(r.usableEnergy, 16);
-  near(r.flightMinutes, 24);
-  near(r.radius, 7.2);
-  near(r.energyPerKm, 40 / 36);
+test('inactive and active phases average to the displayed navigation power', () => {
+  for (const awake of [0, 10, 50, 100]) {
+    const r = calculate({ ...DEFAULTS, awake, sleep: 0.3 });
+    near(r.navigation, r.sparseNavigation * (1 - awake / 100) + r.denseNavigation * awake / 100);
+  }
+  near(calculate({ ...DEFAULTS, awake: 0 }).navigation, 1.703);
+  near(calculate({ ...DEFAULTS, awake: 100 }).navigation, 12.453);
+});
+
+test('full GPU duty produces a loss because SNN and event-camera overhead remains', () => {
+  const r = calculate({ ...DEFAULTS, awake: 100 });
+  assert.ok(r.navigationSaving < 0);
+  assert.ok(r.rangeGain < 0);
+  assert.ok(r.flightMinutes < r.baselineMinutes);
+});
+
+test('reserve, return journey and Wh/km use consistent units', () => {
+  const r = calculate(DEFAULTS);
+  near(r.usableEnergy, 61.6);
+  near(r.flightMinutes, 61.6 / 132.778 * 60);
   near(r.radius * 2, 36 * r.flightMinutes / 60);
+  near(r.energyPerKm, 132.778 / 36);
+  near(r.flightMinutes / r.baselineMinutes - 1, r.rangeGain / 100);
 });
 
-test('gating gains are independent of battery size and speed', () => {
+test('battery and speed change flight estimates without changing power savings', () => {
   const base = calculate(DEFAULTS);
-  const larger = calculate({ ...DEFAULTS, battery: DEFAULTS.battery * 2, speed: DEFAULTS.speed * 2 });
+  const larger = calculate({ ...DEFAULTS, battery: 154, speed: 72 });
   near(larger.rangeGain, base.rangeGain);
   near(larger.flightMinutes, base.flightMinutes * 2);
   near(larger.radius, base.radius * 4);
-  near(larger.energyPerKm, base.energyPerKm / 2);
 });
 
-test('gating is not presented as a gain when its overhead outweighs savings', () => {
-  const alwaysOn = calculate({ ...DEFAULTS, awake: 100 });
-  near(alwaysOn.navigation, 10.004);
-  assert.ok(alwaysOn.navigationSaving < 0);
-  assert.ok(alwaysOn.rangeGain < 0);
-  assert.ok(alwaysOn.flightMinutes < alwaysOn.baselineMinutes);
-  const highSleep = calculate({ ...DEFAULTS, sleep: 20 });
-  assert.ok(highSleep.rangeGain < 0);
-});
-
-test('zero duty cycle and zero electronics power are valid boundaries', () => {
-  const r = calculate({ ...DEFAULTS, awake: 0, camera: 0, snn: 0, sleep: 0, reserve: 0 });
-  near(r.navigation, 0);
-  near(r.navigationSaving, 100);
-  near(r.flightMinutes, 40);
-  near(r.radius, 12);
-});
-
-test('navigation savings and total range gain are distinct quantities', () => {
-  const r = calculate(DEFAULTS);
-  assert.ok(r.navigationSaving > 75);
-  assert.ok(r.rangeGain < 24);
-  near(r.flightMinutes / r.baselineMinutes - 1, r.rangeGain / 100);
-  near(r.radius / r.baselineRadius - 1, r.rangeGain / 100);
-});
-
-test('rejects missing, nonfinite, negative and zero-divisor inputs', () => {
+test('rejects invalid, missing and non-finite input', () => {
   for (const overrides of [
-    { propulsion: 0 }, { heavy: 0 }, { battery: 0 }, { speed: 0 },
-    { propulsion: -1 }, { heavy: Infinity }, { battery: NaN }, { speed: undefined },
-    { camera: -1 }, { snn: -1 }, { sleep: -1 }, { awake: 101 },
-    { awake: -1 }, { reserve: 100 }, { reserve: -1 },
+    { propulsion: 0 }, { heavy: 0 }, { battery: -1 }, { speed: undefined },
+    { camera: -1 }, { snn: -1 }, { frame: NaN }, { lidar: Infinity },
+    { lidarCount: 0 }, { lidarCount: 3 }, { lidarCount: 1.5 }, { sleep: -1 },
+    { awake: 101 }, { awake: -1 }, { reserve: 100 }, { reserve: -1 },
   ]) assert.throws(() => calculate({ ...DEFAULTS, ...overrides }), RangeError);
 });
