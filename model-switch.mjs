@@ -1,4 +1,4 @@
-import { t } from './i18n.mjs';
+import { t } from './i18n.mjs?v=mission-launch-1';
 import { getMissionFrame, MISSION_DURATION } from './mission-timeline.mjs';
 
 // Proposed command ownership. The flight controller stabilises in every mode.
@@ -29,7 +29,7 @@ export function createModelSwitch(root) {
   let animation = null;
   let lastClock = '';
   let lastPlayback = '';
-  const pathLength = path.getTotalLength();
+  let pathLength = null;
   progress.max = String(MISSION_DURATION / 1000);
   const timeLabel = milliseconds => '0:' + String(Math.floor(milliseconds / 1000)).padStart(2, '0');
 
@@ -59,6 +59,8 @@ export function createModelSwitch(root) {
     // Reduced-motion mode keeps the scene still within each phase.
     const shownFrame = reducedMotion.matches && !frame.complete
       ? getMissionFrame(frame.phaseStart) : frame;
+    // Measure the route only after the playback state makes it visible.
+    if (pathLength === null) pathLength = path.getTotalLength();
     const point = path.getPointAtLength(shownFrame.pathProgress * pathLength);
     drone.style.transform = 'translate(' + point.x + 'px, ' + point.y + 'px)';
     root.style.setProperty('--path-remaining', String(1 - shownFrame.pathProgress));
@@ -114,13 +116,16 @@ export function createModelSwitch(root) {
     playback = 'paused';
     renderPlayback();
   }
-  playButton.addEventListener('click', () => {
-    if (playback === 'playing') { pause(); return; }
-    if (playback === 'ready' || playback === 'manual' || playback === 'complete') elapsed = 0;
+  function play(restart = false) {
+    stopAnimation();
+    if (restart || playback === 'ready' || playback === 'manual' || playback === 'complete') elapsed = 0;
     playback = 'playing';
-    lastTime = null;
     setFrame(elapsed, true);
     animation = requestAnimationFrame(tick);
+  }
+  playButton.addEventListener('click', () => {
+    if (playback === 'playing') pause();
+    else play();
   });
   restartButton.addEventListener('click', () => {
     stopAnimation();
@@ -147,10 +152,21 @@ export function createModelSwitch(root) {
   document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
   if ('IntersectionObserver' in window) {
     const visibility = new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting) pause();
+      if (!entries[0].isIntersecting) {
+        // A queued observation can describe the position before a launch scroll.
+        const bounds = root.getBoundingClientRect();
+        if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) pause();
+      }
     });
     visibility.observe(root);
   }
   reducedMotion.addEventListener('change', () => { pause(); renderPlayback(); });
-  return { setLanguage(next) { language = next; render(); renderPlayback(); status.textContent = ''; } };
+  return {
+    setLanguage(next) { language = next; render(); renderPlayback(); status.textContent = ''; },
+    launch() {
+      root.scrollIntoView({ behavior: 'instant', block: 'start' });
+      play(true);
+      playButton.focus({ preventScroll: true });
+    },
+  };
 }

@@ -1,6 +1,6 @@
 import { calculate } from './energy-model.mjs';
-import { t, localeFor } from './i18n.mjs';
-import { createModelSwitch } from './model-switch.mjs';
+import { t, localeFor } from './i18n.mjs?v=mission-launch-1';
+import { createModelSwitch } from './model-switch.mjs?v=mission-launch-1';
 
 const form = document.querySelector('#energy-form');
 const inputs = [...form.querySelectorAll('input')];
@@ -121,6 +121,10 @@ document.querySelectorAll('[data-preset]').forEach(button => button.addEventList
   form.elements.propulsion.value = button.dataset.preset;
   renderEnergy();
 }));
+document.querySelector('[data-mission-launch]').addEventListener('click', event => {
+  event.preventDefault();
+  mission.launch();
+});
 form.addEventListener('input', renderEnergy);
 form.addEventListener('change', renderEnergy);
 form.addEventListener('reset', () => requestAnimationFrame(renderEnergy));
