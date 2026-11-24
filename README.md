@@ -2,7 +2,7 @@
 
 A responsive scientific website matching the poster’s white, black, red and pale-green visual identity based on **DEATH_poster_overleaf-5.pdf**, dated 24 November 2026. The existing English/Danish interface, mission walkthrough, energy calculator and learning demonstration are preserved and extended. The supplied poster replaces the previous PDF at `assets/exam-poster.pdf`.
 
-Static HTML, CSS and JavaScript modules; no backend, build step, analytics or runtime network dependencies. KaTeX 0.16.22, Manrope and product imagery are served locally. The repository remains compatible with GitHub Pages.
+Static HTML, CSS and JavaScript modules; no backend, build step, analytics or runtime network dependencies. KaTeX 0.16.22 and product imagery are served locally; the poster typography uses system Arial. The repository remains compatible with GitHub Pages.
 
 ## Run locally
 
@@ -12,20 +12,20 @@ npm run preview
 
 Open **http://127.0.0.1:8000/**. Alternatively, use `python3 -m http.server 8000`. Serve the files over HTTP because ES modules and the original-prompt viewer fetch local files. No npm install is needed to run the website.
 
-English is the default. EN/DA preserves calculator inputs, selected components and mission state. `?lang=en` and `?lang=da` override the saved language. Bibliographic titles, the original prompt and the requested notices remain in their original language.
+English is the default. EN/DA preserves calculator inputs, selected components and mission state. `?lang=en` and `?lang=da` override the saved language. Bibliographic titles, the original prompt and the top AI disclosure remain in their original language. Explanatory reference metadata and interface controls are translated.
 
 ## Implemented experience
 
 - The full AI disclosure appears above navigation. **View the original AI prompt** opens an accessible dialog displaying `original-prompt.txt` without rewriting. Escape closes it and returns focus. The file includes the user request, supplied file context and original formatting; it excludes private system/developer instructions.
 - A labelled AI-authored SVG depicts the proposed payload, two narrow LiDAR paths, event sensing, RGB/thermal input, Loihi 2, on-demand GPU and the logical avoidance path into the conventional flight controller. Coverage and placement are schematic.
-- An interactive architecture diagram explains signal paths and separates command selection from continuously active stabilization. Each block opens a sourced explanation.
+- An interactive architecture diagram explains signal paths and separates command selection from continuously active stabilization. Each block opens a sourced explanation. On narrow screens, three stage selectors show full-width sensor, processing and control blocks.
 - The distance laboratory renders the poster equation with local KaTeX, pairs sliders and numerical inputs, displays intermediate terms, plots switching distance versus speed, and validates physical inputs and target-clearance ordering.
 - The original four-state, 24-second mission remains playable, pausable and seekable. Scripted timing is separate from the energy budget. The safety-fallback phase holds position.
 - Six structured hardware records distinguish exact variants, chips, modules and development kits. They include sourced specifications, verified imagery where available, mass/power information, limitations and source links. Missing information is explicit.
-- The energy calculator now defaults to the poster's **two LiDARs**. It preserves editable sleep power, battery, reserve, speed and one/two-LiDAR alternatives, with their assumptions identified.
+- The energy calculator now defaults to the poster's **two LiDARs**. It preserves editable sleep power, battery, reserve, speed and one/two-LiDAR alternatives, with their assumptions identified. Visible scenario notes distinguish ground speed from obstacle approach speed; these examples stay independent and show both unit conversions.
 - The three-factor learning example retains the poster's reward values. A separate qualitative gain-synapse illustration compares closest approach with target clearance. Missing gain rules and clipping bounds are not invented.
-- The cost worksheet separates neuromorphic platform, sensors, GPU, controller, drone and integration costs. Unknown prices remain blank. It reports an incomplete subtotal until all lines are priced, converts to DKK using a dated ECB snapshot, and exports the scenario as JSON.
-- A searchable source ledger retains all 14 poster references, adds the poster and seven further sources, and provides verified DOI identifiers. A review register exposes scientific gaps and discrepancies.
+- The cost worksheet separates neuromorphic platform, sensors, GPU, controller, drone and integration costs. Unknown prices remain blank. It labels partial budgets “Subtotal for entered items” even when values are manually estimated. A mobile subtotal stays visible while scrolling through the inputs. Four integration categories and the currency/export breakdown use disclosures. It reports an incomplete subtotal until all lines are priced, converts to DKK using a dated ECB snapshot, and exports the scenario as JSON.
+- A searchable source ledger retains all 14 poster references, adds the poster and seven further sources, and provides verified DOI identifiers. A review register exposes scientific gaps and discrepancies. Source and review details start collapsed; citations and direct source URLs automatically reveal the source ledger and clear its filter. Training-method and gain-example details also fold away to keep the initial reading flow compact.
 
 ## Scientific models and assumptions
 

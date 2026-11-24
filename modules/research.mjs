@@ -1,4 +1,6 @@
 import { REFERENCES } from '../data/references.mjs';
+import { REFERENCE_DA } from '../data/reference-translations.mjs';
+import { setupScenarioNotes } from './scenario-notes.mjs';
 import { HARDWARE } from '../data/hardware.mjs';
 import { SCIENTIFIC_GAPS, EQUATIONS } from '../data/science.mjs';
 import { architectureMarkup, setupArchitecture } from './architecture-view.mjs';
@@ -12,15 +14,15 @@ function integrityMarkup(){
 }
 
 function referencesMarkup(){
-  return `<section class="references-section section-space page-width" id="references" aria-labelledby="references-title"><div class="section-heading"><div><p class="eyebrow">${l('FOLLOW THE EVIDENCE','FØLG DOKUMENTATIONEN')}</p><h2 id="references-title">${l('Every claim\nhas a provenance.','Hver påstand\nhar en oprindelse.')}</h2></div><p>${l('The poster is the primary source. Manufacturer documents and primary research constrain the details. Unknowns and discrepancies are part of the record. Last reviewed 24 November 2026.','Posteren er den primære kilde. Producentdokumenter og original forskning afgrænser detaljerne. Ukendte forhold og afvigelser er en del af dokumentationen. Senest kontrolleret 24. november 2026.')}</p></div>
-    <div class="review-register"><div class="panel-heading"><h3>${l('Scientific review · open questions','Videnskabelig gennemgang · åbne spørgsmål')}</h3><span class="evidence-tag unknown">${l('RESEARCH IN PROGRESS','FORSKNING I GANG')}</span></div>${SCIENTIFIC_GAPS.map(gap=>`<details id="gap-${gap.id}"><summary>${l(gap.en.split('. ')[0]+'.',gap.da.split('. ')[0]+'.')}</summary><p>${l(gap.en,gap.da)} ${cite(...gap.sources)}</p></details>`).join('')}</div>
-    <div class="reference-toolbar"><label for="reference-search">${l('Search the source ledger','Søg i kilderegisteret')}</label><input id="reference-search" type="search" placeholder="Title, author, source or DOI" aria-controls="reference-list"><span id="reference-count" role="status"></span></div><div id="reference-list" class="reference-list"></div><p class="source-hierarchy">${l('Source hierarchy: poster and its references; official manufacturer documentation; peer-reviewed research; official distributors; explicitly identified engineering assumptions. AI-generated prose is never used as evidence. Original references retain their poster numbering; additional sources start at [15].','Kildehierarki: poster og dens referencer; officiel producentdokumentation; fagfællebedømt forskning; officielle forhandlere; eksplicit markerede tekniske antagelser. AI-genereret tekst bruges aldrig som dokumentation. Originale referencer bevarer posterens nummerering; ekstra kilder starter ved [15].')}</p><div class="source-downloads"><a href="data/science.mjs">${l('Scientific parameters','Videnskabelige parametre')}</a><a href="data/hardware.mjs">${l('Hardware data','Hardwaredata')}</a><a href="data/pricing.mjs">${l('Pricing assumptions','Prisantagelser')}</a><a href="data/references.mjs">${l('Reference data','Referencedata')}</a><a href="data/link-review.json">${l('Dated link review','Dateret linkkontrol')}</a><a href="data/poster-transcript.txt">${l('Poster transcript','Postertransskription')}</a></div>
+  return `<section class="references-section section-space page-width" id="references" aria-labelledby="references-title"><div class="section-heading"><div><p class="eyebrow">${l('FOLLOW THE EVIDENCE','FØLG DOKUMENTATIONEN')}</p><h2 id="references-title">${l('References','Kilder')}</h2></div><p>${l('The poster is the primary source. Manufacturer documents and primary research constrain the details. Unknowns and discrepancies are part of the record. Last reviewed 24 November 2026.','Posteren er den primære kilde. Producentdokumenter og original forskning afgrænser detaljerne. Ukendte forhold og afvigelser er en del af dokumentationen. Senest kontrolleret 24. november 2026.')}</p></div>
+    <details class="compact-details review-disclosure" id="scientific-review"><summary>${l('Scientific review & open questions','Videnskabelig gennemgang og åbne spørgsmål')}</summary><div class="review-register"><div class="panel-heading"><h3>${l('Scientific review · open questions','Videnskabelig gennemgang · åbne spørgsmål')}</h3><span class="evidence-tag unknown">${l('RESEARCH IN PROGRESS','FORSKNING I GANG')}</span></div>${SCIENTIFIC_GAPS.map(gap=>`<details id="gap-${gap.id}"><summary>${l(gap.en.split('. ')[0]+'.',gap.da.split('. ')[0]+'.')}</summary><p>${l(gap.en,gap.da)} ${cite(...gap.sources)}</p></details>`).join('')}</div></details>
+    <details class="compact-details reference-disclosure" id="reference-details"><summary>${l('Browse all 22 sources · poster, research & hardware','Se alle 22 kilder · poster, forskning og hardware')}</summary><div class="reference-toolbar"><label for="reference-search">${l('Search the source ledger','Søg i kilderegisteret')}</label><input id="reference-search" type="search" placeholder="Title, author, source or DOI" aria-controls="reference-list"><span id="reference-count" role="status"></span></div><div id="reference-list" class="reference-list"></div></details><p class="source-hierarchy">${l('Source hierarchy: poster and its references; official manufacturer documentation; peer-reviewed research; official distributors; explicitly identified engineering assumptions. AI-generated prose is never used as evidence. Original references retain their poster numbering; additional sources start at [15].','Kildehierarki: poster og dens referencer; officiel producentdokumentation; fagfællebedømt forskning; officielle forhandlere; eksplicit markerede tekniske antagelser. AI-genereret tekst bruges aldrig som dokumentation. Originale referencer bevarer posterens nummerering; ekstra kilder starter ved [15].')}</p><div class="source-downloads"><a href="data/science.mjs">${l('Scientific parameters','Videnskabelige parametre')}</a><a href="data/hardware.mjs">${l('Hardware data','Hardwaredata')}</a><a href="data/pricing.mjs">${l('Pricing assumptions','Prisantagelser')}</a><a href="data/references.mjs">${l('Reference data','Referencedata')}</a><a href="data/link-review.json">${l('Dated link review','Dateret linkkontrol')}</a><a href="data/poster-transcript.txt">${l('Poster transcript','Postertransskription')}</a></div>
   </section>`;
 }
 
 function renderHardware(){
   const selected=document.querySelector('[data-component][aria-pressed=true]')?.dataset.component ?? 'event';
-  document.querySelector('.component-detail').innerHTML=HARDWARE.map(h=>`<article id="product-${h.id}" data-product-panel="${h.id}" aria-labelledby="${h.id}-title" ${h.id===selected?'':'hidden'}><div class="product-top"><span class="eyebrow">${e(h.maker)}</span><span class="evidence-tag established">${tr('SOURCED HARDWARE','DOKUMENTERET HARDWARE')}</span></div><div class="hardware-product-layout"><div><h3 id="${h.id}-title">${e(h.name)}</h3><p class="part-number">${e(tr(h.variant,h.daVariant))}</p></div><figure class="hardware-photo">${h.image?`<img src="${h.image}" alt="${e(tr(h.imageCaption,h.daImageCaption))}" loading="lazy" width="240" height="180"><figcaption>${e(tr(h.imageCaption,h.daImageCaption))} ${cite(h.imageSource)}</figcaption>`:`<svg aria-hidden="true" viewBox="0 0 32 32"><use href="#i-${h.icon}"/></svg><figcaption>${tr('Could not be verified: exact-model product photograph.','Kunne ikke verificeres: produktfoto af præcis model.')}</figcaption>`}</figure></div><p class="product-description">${e(tr(h.role,h.daRole))} ${cite('poster')}</p><dl class="spec-grid">${h.specs.map(s=>`<div><dt>${e(tr(s.en,s.da))}</dt><dd>${s.value===null?tr('Not publicly available','Ikke offentligt tilgængelig'):e(s.value)}</dd></div>`).join('')}</dl><div class="hardware-assessment"><div><h4>${tr('Why it is a candidate','Hvorfor den er en kandidat')}</h4><p>${e(tr(h.benefit,h.daBenefit))}</p></div><div><h4>${tr('Limits & integration gaps','Begrænsninger og integrationshuller')}</h4><p>${e(tr(h.limit,h.daLimit))}</p></div></div><div class="product-sources">${h.sources.map(id=>{const r=REFERENCES.find(r=>r.id===id);return `<a href="${r.url}" target="_blank" rel="noopener">[${id}] ${e(r.author)} · ${tr('documentation','dokumentation')}</a>`;}).join('')}<span>${tr('Reviewed 24 Nov 2026','Kontrolleret 24. nov. 2026')}</span></div></article>`).join('');
+  document.querySelector('.component-detail').innerHTML=HARDWARE.map(h=>`<article id="product-${h.id}" data-product-panel="${h.id}" aria-labelledby="${h.id}-title" ${h.id===selected?'':'hidden'}><div class="product-top"><span class="eyebrow">${e(h.maker)}</span><span class="evidence-tag established">${tr('SOURCED HARDWARE','DOKUMENTERET HARDWARE')}</span></div><div class="hardware-product-layout"><div><h3 id="${h.id}-title">${e(h.name)}</h3><p class="part-number">${e(tr(h.variant,h.daVariant))}</p></div><figure class="hardware-photo">${h.image?`<img src="${h.image}" alt="${e(tr(h.imageCaption,h.daImageCaption))}" loading="lazy" width="240" height="180"><figcaption>${e(tr(h.imageCaption,h.daImageCaption))} ${cite(h.imageSource)}</figcaption>`:`<svg aria-hidden="true" viewBox="0 0 32 32"><use href="#i-${h.icon}"/></svg><figcaption>${tr('Could not be verified: exact-model product photograph.','Kunne ikke verificeres: produktfoto af præcis model.')}</figcaption>`}</figure></div><p class="product-description">${e(tr(h.role,h.daRole))} ${cite('poster')}</p><dl class="spec-grid">${h.specs.map(s=>`<div><dt>${e(tr(s.en,s.da))}</dt><dd>${s.value===null?tr('Not publicly available','Ikke offentligt tilgængelig'):e(tr(s.value,s.daValue))}</dd></div>`).join('')}</dl><div class="hardware-assessment"><div><h4>${tr('Why it is a candidate','Hvorfor den er en kandidat')}</h4><p>${e(tr(h.benefit,h.daBenefit))}</p></div><div><h4>${tr('Limits & integration gaps','Begrænsninger og integrationshuller')}</h4><p>${e(tr(h.limit,h.daLimit))}</p></div></div><div class="product-sources">${h.sources.map(id=>{const r=REFERENCES.find(r=>r.id===id);return `<a href="${r.url}" target="_blank" rel="noopener">[${id}] ${e(r.author)} · ${tr('documentation','dokumentation')}</a>`;}).join('')}<span>${tr('Reviewed 24 Nov 2026','Kontrolleret 24. nov. 2026')}</span></div></article>`).join('');
   // If a manufacturer download was blocked, expose an honest fallback instead of a broken image.
   document.querySelectorAll('.hardware-photo img').forEach(img=>img.addEventListener('error',()=>{
     img.hidden=true;
@@ -32,18 +34,32 @@ function setupReferences(){
   const search=document.querySelector('#reference-search');
   function render(){
     const query=search.value.trim().toLocaleLowerCase();
-    const matches=REFERENCES.filter(r=>Object.values(r).filter(Boolean).join(' ').toLocaleLowerCase().includes(query));
-    document.querySelector('#reference-list').innerHTML=matches.map(r=>`<article class="reference-entry" id="ref-${r.id}"><span class="reference-id">[${r.id==='poster'?'Poster':r.id}]</span><div><div class="reference-meta"><span>${e(r.type)}</span><span>${e(r.year)}</span></div><h3>${r.url?`<a href="${r.url}" target="_blank" rel="noopener">${e(r.title)}</a>`:e(r.title)}</h3><p class="reference-author">${e(r.author)}</p><p class="reference-status">${e(r.status)}${r.note?` · ${e(r.note)}`:''}</p><div class="reference-identifiers">${r.doi?`<a href="https://doi.org/${r.doi}" target="_blank" rel="noopener">DOI: ${r.doi}</a>`:''}${r.identifier?`<span>${e(r.identifier)}</span>`:''}${r.extra?`<a href="${r.extra}" target="_blank" rel="noopener">${tr('Additional source / document','Ekstra kilde / dokument')}</a>`:''}</div></div></article>`).join('');
+    const matches=REFERENCES.filter(r=>[...Object.values(r),...Object.values(REFERENCE_DA[r.id]??{})].filter(Boolean).join(' ').toLocaleLowerCase().includes(query));
+    document.querySelector('#reference-list').innerHTML=matches.map(r=>`<article class="reference-entry" id="ref-${r.id}"><span class="reference-id">[${r.id==='poster'?'Poster':r.id}]</span><div><div class="reference-meta"><span>${e(tr(r.type,REFERENCE_DA[r.id]?.type))}</span><span>${e(r.year)}</span></div><h3>${r.url?`<a href="${r.url}" target="_blank" rel="noopener">${e(r.title)}</a>`:e(r.title)}</h3><p class="reference-author">${e(r.author)}</p><p class="reference-status">${e(tr(r.status,REFERENCE_DA[r.id]?.status))}${r.note?` · ${e(tr(r.note,REFERENCE_DA[r.id]?.note))}`:''}</p><div class="reference-identifiers">${r.doi?`<a href="https://doi.org/${r.doi}" target="_blank" rel="noopener">DOI: ${r.doi}</a>`:''}${r.identifier?`<span>${e(r.identifier)}</span>`:''}${r.extra?`<a href="${r.extra}" target="_blank" rel="noopener">${tr('Additional source / document','Ekstra kilde / dokument')}</a>`:''}</div></div></article>`).join('');
     document.querySelector('#reference-count').textContent=tr(`${matches.length} sources`,`${matches.length} kilder`);
     search.placeholder=tr('Title, author, source or DOI','Titel, forfatter, kilde eller DOI');
   }
   search.addEventListener('input',render);
+  function revealReference(hash, scroll=false){
+    if(!hash.startsWith('#ref-'))return;
+    if(search.value){search.value='';render();}
+    const target=document.getElementById(hash.slice(1));
+    if(!target)return;
+    document.querySelector('#reference-details').open=true;
+    if(scroll)target.scrollIntoView({block:'start'});
+  }
   document.addEventListener('click',event=>{
     const anchor=event.target.closest('a[href^="#ref-"]');
-    if(anchor && search.value){search.value='';render();}
+    if(anchor){
+      revealReference(anchor.hash);
+      // A repeated citation must still scroll after a user closes the source list.
+      if(location.hash===anchor.hash){event.preventDefault();revealReference(anchor.hash,true);}
+    }
   });
-  window.addEventListener('hashchange',()=>{if(location.hash.startsWith('#ref-') && search.value){search.value='';render();document.querySelector(location.hash)?.scrollIntoView();}});
-  render();return {render};
+  window.addEventListener('hashchange',()=>revealReference(location.hash,true));
+  render();
+  if(location.hash.startsWith('#ref-'))requestAnimationFrame(()=>revealReference(location.hash,true));
+  return {render};
 }
 
 function setupPrompt(){
@@ -78,6 +94,7 @@ export function initResearch(){
   const cost=setupCost();
   const references=setupReferences();
   const learning=setupClearanceLearning();
+  const scenarios=setupScenarioNotes();
   setupPrompt();
   document.querySelector('.learning-equation').dataset.equation=EQUATIONS.learning;
   document.querySelector('.model-notes-grid > div').insertAdjacentHTML('afterbegin',`<div class="poster-equations"><span class="evidence-tag theory">${tr('EXACT POSTER EQUATIONS','POSTERENS PRÆCISE LIGNINGER')}</span><div data-equation="${EQUATIONS.baseline}"></div><div data-equation="${EQUATIONS.proposed}"></div><div data-equation="${EQUATIONS.gain}"></div>${cite('poster')}</div>`);
@@ -86,7 +103,7 @@ export function initResearch(){
   return {
     setLanguage(language){
       setUiLanguage(language);
-      renderHardware(); architecture.render(); distance.render(); cost.render(); references.render(); learning.render(); renderMath();
+      renderHardware(); architecture.render(); distance.render(); cost.render(); references.render(); learning.render(); scenarios.render(); renderMath();
     },
   };
 }
