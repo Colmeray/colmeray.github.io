@@ -4,16 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" data-i18n-content="description" content="SpikeNav: event-based navigation for medical delivery drones. Explore the hardware, spiking control policy and transparent energy model.">
-  <meta name="theme-color" content="#090f16">
+  <meta name="theme-color" content="#ffffff">
   <title>SpikeNav — Small signals. Further care.</title>
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=research-2">
+  <link rel="stylesheet" href="style.css?v=poster-1">
   <link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
-  <link rel="stylesheet" href="research.css?v=research-2">
+  <link rel="stylesheet" href="research.css?v=poster-1">
   <script defer src="assets/vendor/katex/katex.min.js"></script>
   <script>document.documentElement.classList.add('js');</script>
-  <script type="module" src="Script.js?v=research-2"></script>
+  <script type="module" src="Script.js?v=poster-1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -50,14 +49,16 @@
   </header>
   <main id="main">
     <section class="hero page-width" aria-labelledby="hero-title">
-      <div class="hero-copy"><p class="eyebrow" data-i18n="heroEyebrow">SPIKENAV / INTERACTIVE RESEARCH COMPANION</p><div class="hero-proposal"><span class="evidence-tag proposed" data-en="RESEARCH PROPOSAL" data-da="FORSKNINGSFORSLAG">RESEARCH PROPOSAL</span><span class="mono">NEUROMORPHIC / 2026</span></div>
-        <h1 id="hero-title"><span data-en="Small signals." data-da="Små signaler.">Small signals.</span><em data-en="Further care." data-da="Længere hjælp.">Further care.</em></h1>
+      <div class="hero-copy"><p class="eyebrow" data-i18n="heroEyebrow">27020 BIOENGINEERING · NEURO · GROUP 2</p><div class="hero-proposal"><span class="evidence-tag proposed" data-en="RESEARCH PROPOSAL" data-da="FORSKNINGSFORSLAG">RESEARCH PROPOSAL</span><span class="mono">NEUROMORPHIC / 2026</span></div>
+        <h1 id="hero-title">SpikeNav</h1>
         <p class="hero-tagline" data-i18n="heroTagline">Event-based navigation for medical delivery drones.</p><p class="hero-description" data-i18n="heroDescription">A proposed navigation payload inspired by the brain: let a spiking network react to obstacles, and call on a GPU when the mission needs a bigger picture.</p>
         <div class="hero-actions"><a class="button button-red" href="#distance" data-en="Explore the threshold lab" data-da="Udforsk afstandslaboratoriet">Explore the threshold lab</a><a class="text-link" href="#mission" data-mission-launch aria-controls="mission-map" data-en="Watch the mission" data-da="Se missionen">Watch the mission</a></div><p class="hero-context"><span class="crosshair" aria-hidden="true">+</span><span data-i18n="heroContext">27020 Bioengineering · Neuro · Group 2 · Research proposal</span></p>
       </div>
       <figure class="hero-visual"><div class="visual-topline"><span data-en="PROPOSED NAVIGATION PAYLOAD" data-da="FORESLÅET NAVIGATIONSPAYLOAD">PROPOSED NAVIGATION PAYLOAD</span><span class="mono">EVENT / SNN / VLM</span></div><img class="payload-image" src="assets/system-concept.svg" width="880" height="610" alt="AI-generated conceptual quadrotor illustration with event vision, two narrow LiDAR rays, RGB/thermal inputs, Loihi 2 and on-demand GPU. Not an implemented prototype." data-i18n-alt="payloadAlt" fetchpriority="high"><figcaption class="illustration-caption">AI-generated conceptual illustration based on the SpikeNav poster and its references. Not a photograph of an implemented prototype. <a href="#ref-poster">[Poster]</a><br><span data-en="Coverage is schematic; hardware arrangement, sizes and lens angles are not an integration design." data-da="Dækningen er skematisk; placering, størrelser og linsevinkler er ikke et integrationsdesign.">Coverage is schematic; hardware arrangement, sizes and lens angles are not an integration design.</span></figcaption></figure>
       <div class="hero-stats"><div><span class="metric-label" data-en="THEORETICAL / POWER" data-da="TEORETISK / EFFEKT">THEORETICAL / POWER</span><strong>71.4<span>%</span></strong><p data-i18n="statPower">modelled navigation power reduction</p></div><div><span class="metric-label" data-en="ESTIMATED / RANGE" data-da="ESTIMERET / RÆKKEVIDDE">ESTIMATED / RANGE</span><strong>+6.5<span>%</span></strong><p data-i18n="statRange">modelled range gain · 1 kg example</p></div><div><span class="metric-label" data-en="ASSUMED / DUTY CYCLE" data-da="ANTAGET / AKTIV ANDEL">ASSUMED / DUTY CYCLE</span><strong>10<span>%</span></strong><p data-i18n="statDuty">assumed GPU active time</p></div><p class="stats-note"><span data-i18n="statsNote">Calculated from poster assumptions. No integrated flight measurements.</span><a href="#ref-poster">[Poster]</a><a href="#energy" data-en="Inspect the energy model" data-da="Undersøg energimodellen">Inspect the energy model</a></p></div>
     </section>
+
+    <div class="poster-forest" aria-hidden="true"></div>
 
     <section class="context-band" id="context" aria-labelledby="context-title">
       <div class="page-width context-layout">
@@ -93,7 +94,7 @@
             <div class="mission-scene">
               <div class="scene-topline"><span data-i18n="conceptIllustration">CONTROL CONCEPT · ILLUSTRATION</span><span class="gpu-status" id="gpu-state">GPU asleep</span></div>
               <svg class="flight-map" id="mission-map" viewBox="0 0 700 340" role="img" aria-labelledby="scenario-title" aria-describedby="scenario-text">
-                <defs><pattern id="map-grid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#405347"/></pattern><g id="map-tree"><path d="M0-15v50m0-12-13-10m13 3 12-10" stroke="#64816c" stroke-width="2"/><circle cy="-10" r="21" fill="#283d30" stroke="#46614e"/><circle cx="-15" cy="4" r="15" fill="#283d30" stroke="#46614e"/><circle cx="14" cy="5" r="17" fill="#283d30" stroke="#46614e"/></g></defs>
+                <defs><pattern id="map-grid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#d7dfd0"/></pattern><g id="map-tree"><path d="M0-15v50m0-12-13-10m13 3 12-10" stroke="#8c9f82" stroke-width="2"/><circle cy="-10" r="21" fill="#dbe5d4" stroke="#a1b198"/><circle cx="-15" cy="4" r="15" fill="#dbe5d4" stroke="#a1b198"/><circle cx="14" cy="5" r="17" fill="#dbe5d4" stroke="#a1b198"/></g></defs>
                 <rect width="700" height="340" fill="url(#map-grid)"/>
                 <use href="#map-tree" x="65" y="81"/><use href="#map-tree" x="150" y="260"/><use href="#map-tree" x="510" y="77"/><use href="#map-tree" x="632" y="262"/><use href="#map-tree" x="252" y="62"/>
                 <g class="map-obstacle"><use href="#map-tree" x="368" y="173"/><circle cx="368" cy="173" r="48" stroke="#f16c70" stroke-dasharray="4 7"/></g>
@@ -105,7 +106,7 @@
                 <path class="mission-flown-path" d="M74 183H238C294 183 282 80 362 80S425 183 488 183C536 183 545 212 594 226" pathLength="1"/>
                 <g class="map-destination"><ellipse cx="594" cy="246" rx="42" ry="17" fill="#b30e1930" stroke="#f16c70"/><path d="M582 241v10m24-10v10m-24-5h24" stroke="#f3dcd7" stroke-width="2"/><rect x="580" y="198" width="28" height="26" rx="3" fill="#e4ece2"/><path d="M591 203v16m-8-8h19" stroke="#b30e19" stroke-width="4"/></g>
                 <g class="mission-delivered-parcel" transform="translate(594 237)"><rect x="-10" y="-8" width="20" height="17" rx="2" fill="#e4ece2"/><path d="M0-4v9m-5-5h10" stroke="#b30e19" stroke-width="2.5"/></g>
-                <g class="map-drone"><g class="map-scanner" aria-hidden="true"><path d="M14 0 112-42v84Z" fill="#b9d9ac" fill-opacity=".06"/><path d="m14 0 98-42m-98 42 98 42" stroke="#a5c99c" stroke-opacity=".28" stroke-dasharray="3 6"/><g fill="#d5edc7"><circle cx="47" cy="-6" r="2"/><circle cx="68" cy="15" r="1.5"/><circle cx="83" cy="-21" r="2"/><circle cx="100" cy="9" r="1.5"/></g></g><ellipse cy="33" rx="28" ry="8" fill="#000" opacity=".25"/><path d="m-24-12 48 24m-48 0 48-24" stroke="#b5c8b6" stroke-width="5"/><g fill="#24372b" stroke="#9ab59f" stroke-width="1.5"><ellipse cx="-27" cy="-13" rx="21" ry="8"/><ellipse cx="27" cy="-13" rx="21" ry="8"/><ellipse cx="-27" cy="13" rx="21" ry="8"/><ellipse cx="27" cy="13" rx="21" ry="8"/></g><rect x="-11" y="-10" width="22" height="21" rx="4" fill="#b30e19" stroke="#f68e91"/><path d="M-6 0h4l3-5 3 10 3-5" stroke="#fff" stroke-width="1.3"/><g class="drone-parcel"><path d="m-6 17 12 0v12H-6Z" fill="#e0eade"/><path d="M0 19v8m-4-4h8" stroke="#b30e19" stroke-width="2"/></g></g>
+                <g class="map-drone"><g class="map-scanner" aria-hidden="true"><path d="M14 0 112-42v84Z" fill="#b9d9ac" fill-opacity=".06"/><path d="m14 0 98-42m-98 42 98 42" stroke="#a5c99c" stroke-opacity=".28" stroke-dasharray="3 6"/><g fill="#b00000"><circle cx="47" cy="-6" r="2"/><circle cx="68" cy="15" r="1.5"/><circle cx="83" cy="-21" r="2"/><circle cx="100" cy="9" r="1.5"/></g></g><ellipse cy="33" rx="28" ry="8" fill="#000" opacity=".25"/><path d="m-24-12 48 24m-48 0 48-24" stroke="#75896a" stroke-width="5"/><g fill="#e2e9db" stroke="#6b835e" stroke-width="1.5"><ellipse cx="-27" cy="-13" rx="21" ry="8"/><ellipse cx="27" cy="-13" rx="21" ry="8"/><ellipse cx="-27" cy="13" rx="21" ry="8"/><ellipse cx="27" cy="13" rx="21" ry="8"/></g><rect x="-11" y="-10" width="22" height="21" rx="4" fill="#b30e19" stroke="#f68e91"/><path d="M-6 0h4l3-5 3 10 3-5" stroke="#fff" stroke-width="1.3"/><g class="drone-parcel"><path d="m-6 17 12 0v12H-6Z" fill="#e0eade"/><path d="M0 19v8m-4-4h8" stroke="#b30e19" stroke-width="2"/></g></g>
               </svg>
               <div class="scene-caption"><span data-i18n="controlLabel">MOTION COMMANDS</span><strong id="control-owner">Waypoint autopilot</strong></div>
             </div>

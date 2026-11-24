@@ -1,6 +1,6 @@
 # SpikeNav — interactive research companion
 
-A responsive, dark scientific website based on **DEATH_poster_overleaf-5.pdf**, dated 24 November 2026. The existing English/Danish interface, mission walkthrough, energy calculator and learning demonstration are preserved and extended. The supplied poster replaces the previous PDF at `assets/exam-poster.pdf`.
+A responsive scientific website matching the poster’s white, black, red and pale-green visual identity based on **DEATH_poster_overleaf-5.pdf**, dated 24 November 2026. The existing English/Danish interface, mission walkthrough, energy calculator and learning demonstration are preserved and extended. The supplied poster replaces the previous PDF at `assets/exam-poster.pdf`.
 
 Static HTML, CSS and JavaScript modules; no backend, build step, analytics or runtime network dependencies. KaTeX 0.16.22, Manrope and product imagery are served locally. The repository remains compatible with GitHub Pages.
 
