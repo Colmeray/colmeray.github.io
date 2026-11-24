@@ -1,0 +1,144 @@
+{
+  "reviewDate": "2026-11-24",
+  "note": "HTTP retrieval is a link check, not scientific validation; some sources were separately verified through indexed primary documents.",
+  "results": [
+    {
+      "url": "https://arxiv.org/abs/2109.12894",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://arxiv.org/html/2610.39287v1",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://developer.nvidia.com/blog/develop-ai-powered-robots-smart-vision-systems-and-more-with-nvidia-jetson-orin-nano-developer-kit",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://developer.nvidia.com/blog/nvidia-jetpack-6-2-brings-super-mode-to-nvidia-jetson-orin-nano-and-jetson-orin-nx-modules/",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://developer.nvidia.com/embedded/faq",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://dl.djicdn.com/downloads/DJI_Mavic_3/202406UM/DJI_Mavic_3_User_Manual_v2.3_en.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "result": "verified"
+    },
+    {
+      "url": "https://docs.prophesee.ai/stable/hw/sensors/genx320.html",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://en.benewake.com/uploadfiles/2024/04/20240426140025367.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "result": "verified"
+    },
+    {
+      "url": "https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0011242",
+      "status": 200,
+      "contentType": "text/html;charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0014747",
+      "status": 200,
+      "contentType": "text/html;charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://oem.flir.com/products/lepton/?model=500-0771-01",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://openmv.io/products/genx320-camera-module",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://we-robotics.files.svdcdn.com/production/assets/blog/2017/02/WeRobotics-Amazon-Rainforest-Cargo-Drones-Report.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "result": "verified"
+    },
+    {
+      "url": "https://werobotics.org/blog/cargo-drones-deliver-in-the-amazon-rainforest",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://www.dji.com/mavic-3/specs",
+      "status": 200,
+      "contentType": "text/html;charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://www.frontiersin.org/journals/neural-circuits/articles/10.3389/fncir.2015.00085/full",
+      "status": 200,
+      "contentType": "text/html;charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://www.intel.com/content/dam/www/central-libraries/us/en/documents/neuromorphic-computing-loihi-2-brief.pdf",
+      "result": "could not retrieve",
+      "reason": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://www.mouser.com/datasheet/2/233/LI_IMX678_MIPI_118H_Datasheet-3420357.pdf",
+      "status": 200,
+      "contentType": "text/html",
+      "result": "blocked or unexpected content"
+    },
+    {
+      "url": "https://www.prophesee.ai/wp-content/uploads/2025/01/GENX320-Product-Brief-2025-CM2-OK.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "result": "verified"
+    },
+    {
+      "url": "https://www.sparkfun.com/tfmini-s-micro-lidar-module.html",
+      "status": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/snakebite-envenoming",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "result": "verified"
+    },
+    {
+      "url": "https://download.intel.com/newsroom/2021/new-technologies/neuromorphic-computing-loihi-2-brief.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "result": "verified",
+      "note": "Official alternate download retrieved in full; 7-page PDF validated by pdfinfo and pdftotext."
+    }
+  ]
+}

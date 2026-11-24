@@ -1,68 +1,139 @@
-# SpikeNav
+# SpikeNav — interactive research companion
 
-A complete, buildless website for the November 2026 SpikeNav poster: event-based navigation for medical delivery drones. Static HTML, CSS, JavaScript modules and local SVG illustrations; no dependencies, external fonts, analytics or build step. Suitable for this repository's GitHub Pages hosting.
+A responsive, dark scientific website based on **DEATH_poster_overleaf-5.pdf**, dated 24 November 2026. The existing English/Danish interface, mission walkthrough, energy calculator and learning demonstration are preserved and extended. The supplied poster replaces the previous PDF at `assets/exam-poster.pdf`.
 
-## Preview and checks
+Static HTML, CSS and JavaScript modules; no backend, build step, analytics or runtime network dependencies. KaTeX 0.16.22, Manrope and product imagery are served locally. The repository remains compatible with GitHub Pages.
 
-    python3 -m http.server 8000
+## Run locally
 
-Open http://localhost:8000. Use a server because the page imports JavaScript modules.
+```sh
+npm run preview
+```
 
-    node --test energy-model.test.mjs model-switch.test.mjs
-    node --check Script.js
+Open **http://127.0.0.1:8000/**. Alternatively, use `python3 -m http.server 8000`. Serve the files over HTTP because ES modules and the original-prompt viewer fetch local files. No npm install is needed to run the website.
 
-English is the default. EN/DA translates the complete interface and formats numbers; the preference is stored locally. ?lang=en and ?lang=da override the saved preference. Language changes preserve the selected flight scenario, hardware component, reward example and calculator inputs.
+English is the default. EN/DA preserves calculator inputs, selected components and mission state. `?lang=en` and `?lang=da` override the saved language. Bibliographic titles, the original prompt and the requested notices remain in their original language.
 
-## Experience
+## Implemented experience
 
-- A locally drawn SVG introduces the navigation payload.
-- Four selectable flight situations show sparse flight, SNN obstacle avoidance, failed-takeover safety fallback and VLM destination planning. The flight controller stabilises in every mode. These are proposed control states, not inference or drone telemetry.
-- The front-page "Watch the mission" button reveals and starts a 24-second guided mission with obstacle avoidance, a stationary safety fallback and medical delivery. Play/pause, restart and a seekable timeline are available in both languages. It pauses when off screen or in a hidden tab; reduced-motion users see still scenes within each phase. The sequence is scripted and independent of the calculator's duty-cycle assumptions.
-- Six hardware panels link to documentation for GenX320, Loihi 2, TFmini-S, Jetson Orin Nano, LI-IMX678-MIPI-118H and Lepton 3.5. DJI Mavic 3 Classic is explained separately as a modelling reference.
-- An editable calculator compares navigation power, total power, flight duration and return-trip radius. It supports the three poster propulsion examples, one/two LiDAR units, sleep power and frame-camera gating.
-- A three-factor learning illustration previews the proposed reward modulation. It uses fixed illustrative learning-rate and trace values; it does not train a network. The missed-obstacle example acts on a stay-in-autopilot synapse, unlike the takeover examples.
-- Responsive navigation, native form validation states, keyboard controls, live announcements and reduced-motion support.
-- assets/exam-poster.pdf is the supplied DEATH_poster_overleaf-1.pdf, replacing the older poster.
+- The full AI disclosure appears above navigation. **View the original AI prompt** opens an accessible dialog displaying `original-prompt.txt` without rewriting. Escape closes it and returns focus. The file includes the user request, supplied file context and original formatting; it excludes private system/developer instructions.
+- A labelled AI-authored SVG depicts the proposed payload, two narrow LiDAR paths, event sensing, RGB/thermal input, Loihi 2, on-demand GPU and the logical avoidance path into the conventional flight controller. Coverage and placement are schematic.
+- An interactive architecture diagram explains signal paths and separates command selection from continuously active stabilization. Each block opens a sourced explanation.
+- The distance laboratory renders the poster equation with local KaTeX, pairs sliders and numerical inputs, displays intermediate terms, plots switching distance versus speed, and shares parameters with a synthetic obstacle demonstration. Invalid physical inputs and target-clearance ordering disable that demonstration.
+- The signal demonstration shows sparse mode, SNN take-over, looming triggers, hard-limit fallback and the proposed clearance dwell. Its raster and commands are illustrative. It does not run a trained network or validated aircraft dynamics.
+- The original four-state, 24-second mission remains playable, pausable and seekable. Scripted timing is separate from the energy budget. The safety-fallback phase holds position.
+- Six structured hardware records distinguish exact variants, chips, modules and development kits. They include sourced specifications, verified imagery where available, mass/power information, limitations and source links. Missing information is explicit.
+- The energy calculator now defaults to the poster's **two LiDARs**. It preserves editable sleep power, battery, reserve, speed and one/two-LiDAR alternatives, with their assumptions identified.
+- The three-factor learning example retains the poster's reward values. A separate qualitative gain-synapse illustration compares closest approach with target clearance. Missing gain rules and clipping bounds are not invented.
+- The cost worksheet separates neuromorphic platform, sensors, GPU, controller, drone and integration costs. Unknown prices remain blank. It reports an incomplete subtotal until all lines are priced, converts to DKK using a dated ECB snapshot, and exports the scenario as JSON.
+- A searchable source ledger retains all 14 poster references, adds the poster and seven further sources, and provides verified DOI identifiers. A review register exposes scientific gaps and discrepancies.
 
-## Energy model
+## Scientific models and assumptions
 
-Power is in watts, except event-camera input in milliwatts. The defaults are:
+The poster reports no integrated SpikeNav flight measurements. All website calculations are theoretical or illustrative.
 
-| Input | Default |
+### Distances
+
+```text
+d_switch = v × t_r + v² / (2a) + d_min
+d_min < c* < d_switch
+```
+
+`v`: approach speed, m/s; `t_r`: reaction time, s; `a`: positive constant-deceleration magnitude, m/s²; `d_min`: designer-supplied hard limit, m; `c*`: target clearance, m. The plot holds all inputs except speed fixed. This 1D calculation omits wind, attitude, actuation and timing uncertainty.
+
+**No d_max definition or equation is supplied. No numerical derivation of d_min is supplied.** The site therefore treats d_min as an input and d_max as unavailable. Neither is substituted with d_switch or a datasheet sensor range. Defaults of 4 m/s, 0.2 s, 2 m/s², 1 m and 2 m are explicitly website examples, not safety recommendations.
+
+| Manually checked example | Reaction | Braking | d_switch |
+| --- | --- | --- | --- |
+| v=4, t_r=0.2, a=2, d_min=1 | 0.8 m | 4 m | 5.8 m |
+| v=10, t_r=0.3, a=5, d_min=2 | 3 m | 10 m | 15 m |
+
+The latter exceeds TFmini-S's conditional 12 m range at 90% reflectivity. Its 7 m range at 10% reflectivity is separately flagged. Neither is d_max or guaranteed obstacle detection. The 2 s clearance dwell is a demonstration assumption.
+
+### Energy
+
+```text
+Pbase = PGPU + n × Plidar + Pframe
+PSpikeNav = Pcam + PSNN + n × Plidar
+          + f × (PGPU + Pframe) + (1−f) × Psleep
+range gain = (Pprop + Pbase) / (Pprop + PSpikeNav) − 1
+```
+
+Defaults: propulsion 130 W; active GPU 10 W; GPU/frame-camera duty 10%; event camera 3 mW; assumed SNN 1 W; two LiDARs at 0.7 W each; RGB/thermal 0.75 W; inactive GPU/cameras 0 W. Camera input is converted to W.
+
+These give **12.15 W** baseline and **3.478 W** proposed navigation, a **71.4%** theoretical navigation-power reduction. The original poster rounds to 12.2/3.5 W. The calculator retains full precision until display. Modeled range gains round to **6.5%, 3.3%, 1.3%** at propulsion powers 130/260/650 W.
+
+77 Wh comes from the DJI Mavic 3 reference; 36 km/h and 20% reserve are extra website assumptions. Constant propulsion/speed are assumed. Controller/carrier electronics, regulators, wind, delivery hover and extra transients are omitted. Boot and fallback must fit within or increase the active share. A DJI reference does not select a delivery airframe. Complete inactive power-off and a 1 W SNN remain unvalidated.
+
+### Learning
+
+```text
+Δw_ij = η × M × e_ij
+```
+
+Poster modulators: needed take-over +1, false alarm −0.2, missed obstacle −1 on a different “stay” synapse population. With illustrative η=0.1 and e=0.8, changes are +0.080, −0.016 and −0.080. No numerical clipping bounds or gain-reward rule are supplied. c* is the target to maintain; the hard safety limit is not learned.
+
+## Cost evidence
+
+Three observed listings seed a **$963 subtotal**: OpenMV GENX320 module $400; Jetson Orin Nano Super Developer Kit $399; FLIR Lepton 3.5 $164. Reviewed 24 November 2026. These are listings/MSRP for distinct assemblies, not guaranteed availability, quotations, bare-chip costs or the cost of a completed prototype.
+
+Seven lines remain unpriced, including Loihi 2. Evidence is insufficient for credible low/central/high Loihi estimates. Intel's research access and unrelated product prices cannot establish a commercial chip price. A research board and a bare chip are distinct. Manual values are labelled user engineering assumptions; blank means unknown, while an explicit zero means the user assumes no incremental cost.
+
+The priced OpenMV module requires a compatible host, shown as a separate unpriced integration item. No specific host is added to the poster architecture as a confirmed selection. Avoid counting controllers/carriers twice if included in another platform quote.
+
+ECB snapshot, **2026-11-24**: 1 EUR = 1.0963 USD = 7.4744 DKK. DKK/USD = 7.4744 / 1.0963, rounded to six decimals in the editable field. Editing it marks the rate as user-supplied. Tax, import duties, delivery, labour, certification, test flights, software and clinical logistics are excluded.
+
+## Unresolved scientific questions and discrepancies
+
+- No justified d_min value, d_max equation, validated deceleration/latency or event-to-command timing is given.
+- No integrated SpikeNav prototype, under-canopy flight result, online-learning performance or clinical benefit is demonstrated.
+- Loihi 2's ≤1 W budget is an assumption, not a universal Intel specification. Public retail chip pricing was not verified. Oheo Gulch and Kapoho Point are distinct research platforms.
+- OpenFlyV2 is a preprint reporting 48% success in its own 100 physical trials on a DJI M30T with **Orin NX**. This does not establish **Orin Nano** compatibility, SpikeNav performance, thermal fusion or the assumed 10 W workload.
+- The cited DTU Lecture 3 slides were not supplied and could not be independently accessed. The poster's rule is reproduced; the additional peer-reviewed review supports the general mechanism only.
+- The exact LI-IMX678-MIPI-118H indexed datasheet ends at rev. 0.2 (4 July 2023), while the poster cites 1.0. Direct download is blocked; indexed manufacturer-document content was reviewed. An exact-model photo could not be retrieved.
+- The poster names Lepton without a variant. Lepton 3.5 / 500-0771-01 is explicitly a website candidate, and its family image is labelled.
+- NVIDIA's current FAQ lists $399 for the Super kit; older launch material says $249. Production-module volume pricing is a separate purchase basis. The poster's ≈$1k excluding SNN is not a reproducible complete quotation.
+- The six-hour comparison comes from a separate coagulopathy study, not a universal treatment deadline. WeRobotics' 2017 delivery used a different fixed-wing aircraft and simulated clinical response.
+
+Direct retrieval of canonical Intel and Mouser downloads was blocked. Intel's official alternate worked. `data/link-review.json` records these limits; HTTP availability is not scientific validation.
+
+## Data and code
+
+| File | Purpose |
 | --- | --- |
-| Propulsion | 130 W |
-| GPU active power | 10 W |
-| GPU + frame-camera active fraction | 10% |
-| Event camera | 3 mW |
-| SNN | **1 W** |
-| LiDAR | 0.7 W × one unit |
-| Active RGB + thermal | 0.75 W |
-| Inactive GPU + frame cameras | 0 W |
-| Battery / speed / reserve | 77 Wh / 36 km/h / 20% |
+| `data/science.mjs` | Poster equations, demonstration defaults and scientific gaps |
+| `data/energy.mjs` | Power defaults, units and assumptions |
+| `data/hardware.mjs` | Exact variants, specifications and image provenance |
+| `data/pricing.mjs` | Prices, quantities, missing values and exchange-rate basis |
+| `data/references.mjs` | Bibliography, DOI identifiers and verification status |
+| `data/exchange-rate-2026-11-24.xml` | Official dated ECB snapshot |
+| `data/link-review.json` | Dated direct link retrieval results |
+| `data/poster-transcript.txt` | Full transcript of the supplied poster |
+| `modules/*-model.mjs` | Pure calculations separated from browser rendering |
+| `modules/*-view.mjs` | Calculators, architecture and learning interactions |
+| `modules/research.mjs` | Source ledger, product panels and prompt viewer |
+| `Script.js`, `model-switch.mjs`, `mission-timeline.mjs` | Preserved energy and mission functionality |
+| `i18n.mjs` | English and Danish translations with updated-poster corrections |
+| `style.css`, `research.css` | Layout foundations and new visual system |
 
-    Pbase = PGPU + n × Plidar + Pframe
-    PSpikeNav = Pcam + PSNN + n × Plidar
-             + f × (PGPU + Pframe) + (1 − f) × Psleep
-    range gain = (Pprop + Pbase) / (Pprop + PSpikeNav) − 1
+Manrope: SIL Open Font License, `assets/fonts/OFL.txt`. KaTeX: MIT, `assets/vendor/katex/LICENSE`. Manufacturer-image attribution: `assets/hardware/ATTRIBUTION.txt`.
 
-The unrounded navigation values are 11.45 W and 2.778 W, about 75.7% navigation savings. At 130, 260 and 650 W propulsion the model gives about 6.5%, 3.3% and 1.3% range gain.
+## Verification
 
-The 1 W SNN budget, 10 W average GPU workload, 10% duty cycle and full GPU/frame-camera power-off are project assumptions, not measured hardware guarantees. The active share must include boot and safety fallback. Speed and reserve are additional examples. Constant propulsion and speed are assumed; extra avionics, weather, delivery hover, regulators and separate boot/shutter peaks are excluded. Battery and speed affect duration/radius, not percentage range gain.
+```sh
+npm test
+```
 
-The poster budgets a single TFmini-S even though its diagram describes forward and downward ranging. The calculator permits two fixed units and charges both architectures for the same sensor count.
+25 individual model/integrity tests cover manual calculations, units, two-LiDAR power, reserve/return distance, switching, invalid inputs, missing costs, quantities, currency conversion, reward examples, equation rendering, source relationships and preserved mission timing.
 
-## Sources and interpretation
+For browser QA, install development-only dependencies and Chromium, start the preview in another terminal, then run:
 
-Manufacturer links are beside the facts in the page:
+```sh
+npm install
+npx playwright install chromium
+npm run test:browser
+```
 
-- [GenX320 2023 product brief](https://www.prophesee.ai/wp-content/uploads/2023/10/GENX320ES-Product-Brief-2023-DICE-OK.pdf): the cited 3 mW and 22.8 mW are specific historical operating points; current product figures vary.
-- [Intel Loihi 2 brief](https://www.intel.com/content/dam/www/central-libraries/us/en/documents/neuromorphic-computing-loihi-2-brief.pdf): research access, neuron/core counts and learning capability; not evidence for a universal 1 W specification.
-- [Benewake TFmini-S datasheet](https://en.benewake.com/uploadfiles/2024/04/20240426140025367.pdf): power is per single-point sensor; two fixed directions imply two units.
-- [NVIDIA JetPack 6.2](https://developer.nvidia.com/blog/nvidia-jetpack-6-2-brings-super-mode-to-nvidia-jetson-orin-nano-and-jetson-orin-nx-modules/): distinguish original 7/15 W modes from Super options.
-- [Leopard Imaging datasheet, hosted by Mouser](https://www.mouser.com/datasheet/2/233/LI_IMX678_MIPI_118H_Datasheet-3420357.pdf): the exact non-HL camera variant.
-- [FLIR Lepton 3.5](https://oem.flir.com/products/lepton/?model=500-0771-01): operating, standby and shutter powers differ.
-- [DJI specifications](https://www.dji.com/mavic-3-classic/specs): 77 Wh, 40 min maximum hover and 895 g imply about 129 W/kg total electrical power. Rounding to 130 and treating that as linearly scaling propulsion is a poster approximation.
+The browser suite checks prompt-file fidelity and keyboard behaviour, distance/cost calculations and validation, avoidance/fallback/looming/dwell, JSON export, hardware panels, both learning populations, original mission controls, citations, both languages, responsive controls at 320/390/768/1440 px, internal anchors and JavaScript errors. It also runs an automated WCAG A/AA axe scan. Automated checks supplement scientific and visual review; they do not establish flight safety or full accessibility conformance.
 
-WHO contextual burden estimates, the WeRobotics transport report, Houcke et al.'s separate French Guiana clinical study and the two learning-method publications are linked in their sections. The poster's isolated 48% VLM claim points to a LiDAR reference and could not support a website claim.
-
-The site is a research presentation. System integration, safe switching, GPU boot, VLM reliability and in-flight learning remain to be demonstrated.
+Changes are local to this repository. These scripts do not deploy or push Git commits.

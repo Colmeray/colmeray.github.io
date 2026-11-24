@@ -1,0 +1,146 @@
+27020 BIOENGINEERING · NEURO · GROUP 2
+                                                                                                                                                           Fig. 2: Our product is the payload in red, not the drone. Dots are the sparse events the event camera
+                                                                                                                                                           sends to the spiking network. Created with BioRender.com.
+
+
+
+SpikeNav
+Event-based navigation for medical delivery
+drones
+A low-power spiking network that handles obstacles itself and switches
+the GPU on only near the target
+
+
+
+Chandler Desforges
+Wilhelm Mortensen
+Karoline Andersen
+Oliver Colmer
+Victor Schmidt
+Gustav Bellaiche
+
+
+
+
+     1       Problem                                                                               2            Solution                                                                                 3      Quantitative analysis
+Snakebite envenoming kills 81,000–138,000                                                        Drones with vision-based obstacle avoidance                                                            Function              Candidate                              Power
+people a year and disables up to ∼400,000                                                        run GPU navigation the whole flight. Our                                                               Event camera          GenX320                         ∼3 mW∗ [8]
+more [1]. Antivenom must arrive within                                                           low-power spiking neural network (SNN)                                                                 SNN chip              Loihi 2                            ≤1 W† [7]
+hours, but victims are often farmers far from                                                    with an event camera handles obstacles and                                                             Lidar (×2)            TFmini-S                         ≤1.4 W [9]
+a clinic.                                                                                        switches the GPU on only near the target.                                                              GPU (target only) Jetson Orin Nano                    7–15 W [10]
+                                                                                                             Sparse mode
+Case region: the Amazon, where bites cluster                                                                                                                                                            RGB + thermal         IMX678 + Lepton            0.75 W [11, 12]
+                                                                                                         Autopilot flies waypoints;
+                                                                                                          SNN watches (≤1 W)                            safe route flown:
+in remote rainforest communities, e.g. in                                                                                                           back to sparse mode
+
+Peru [2]. In French Guiana the median time to                                                                                                                                                            Range ∝ battery energy / total power
+                                                                                                          Lidar ranging forward +                               Safety override
+antivenom is ∼9 h, and only 37.8 % are                                                                           downward                                     Stop, hover, GPU on:                       Pnav,base = PGPU +Plidar +Pframe ≈ 10+1.4+0.75 ≈ 12.2 W
+                                                                                                                                                            VLM plans a safe way out                     Pnav,ours = Pcam + PSNN + Plidar + f · (PGPU + Pframe)
+treated within the recommended 6 h [3].                                                                                                                                                                   ≈ 0.003 + 1.0 + 1.4 + 1.08 ≈ 3.5 W
+                                                                                                                                                                                closer than dmin
+Drones delivering antivenom must therefore                                                                       Obstacle within                                                                         Gain = (Pprop + 12.2) / (Pprop + 3.5) − 1
+                                                                                                  no                                                yes        SNN takes over control
+fly far over dense terrain on a small battery.                                                                 dswitch, or SNN sees
+                                                                                                                                                                (or planned descent)                     Pprop ≈ 130 W/kg (hover) [13]
+                                                                                                                      looming?
+ Antivenom works best within 6 h [3]                                                                                                                                                                     PGPU: GPU running the VLM        Pcam: event camera
+  Drone, 40 km                                                                                                                                                     Dense mode                            Plidar: two lidars               PSNN: neuromorphic chip
+         35 min [4]                                                                                                                                           SNN turns events into                      Pframe: RGB + thermal cameras    f : share of flight with GPU on
+    Canoe, same route                                                                                                                                       velocity commands for the                    Pprop: propellers                base: GPU on all flight
+                                                      up to 6 h [4]                                                                                               flight controller
+    Bite to antivenom, median                                                                                                                                                                  no
+    French Guiana hospital study                         9 h 15 min [3]                                                                                                                                Assumptions: same navigation package on all drones;
+0                2h             4h               6h               8h              10 h
+                                                                                                                                                                                                       SpikeNav runs the GPU (PGPU = 10 W [10]) and frame
+                                                                                                          SNN back to watching,                     yes               Clear for N                      cameras only near the target (f = 10 % of flight, incl. boot),
+                                                                                                           autopilot flies again                                      seconds?
+2.7 M                           138k                            −50 %                                                                                                                                  otherwise 0 W. Hover power: DJI Mavic 3 [13]. ∗Low-power
+                                                                                                                                                                                                       readout; full streaming (22.8 mW [8]) still gives ≈71 %.
+envenomings per                 deaths per year,                WHO goal for deaths                                                                                                                    †
+                                                                                                                                                                                                         Assumed upper bound [7].
+year, upper estimate            upper estimate [1]              by 2030 [1]
+                                                                                                  Destination phase (vision-language model, VLM) [5]
+[1]
+                                                                                                       Near target or         Switch on GPU +             Plan path to drop       Deliver, power
+                                                                                                                                                                                                        Drone mass                              Pprop       Range gain
+                                                                                                         person?                    VLM                         spot              down, fly home
+Fig. 1: Time to antivenom against the 6 h window [3, 4]; global                                                                                                                                         1 kg                                    130 W               +6.5 %
+burden of snakebite [1].                                                                          The VLM sets the path; the SNN can still override it.
+                                                                                                                                                                                                        2 kg                                    260 W               +3.3 %
+                                        SDGs: 3) Good health and well-being, 9)
+                                        Industry, innovation and infrastructure, 10)             Fig. 3: Navigation response loop. The SNN takes over within                                            5 kg                                    650 W               +1.3 %
+    3        9        10       17       Reduced inequalities & 17) Partnerships                  dswitch = v tr + v 2/2a + dmin: the distance flown during the
+                                        for the goals
+                                                                                                 reaction time tr , plus the braking distance at speed v and
+                                                                                                 maximum deceleration a, plus the hard limit dmin. It learns to                                                                          navigation power; up
+                       Scan for details
+                       Supplementary calculations and sources
+                                                                                                 keep the clearance c∗ (Fig. 4) and hands back when clear;
+                                                                                                 below dmin the safety override fires (dmin < c∗ < dswitch).                                              −71 %                          to +6.5 % range on
+                                                                                                                                                                                                                                         1–5 kg drones
+                                                                                                   Fig. 4: How take-over and correction gain learn
+                                                                                                                                                        TAKE-OVER SYNAPSES
+                                                                                                                                                                 Needed take-over
+
+Declaration of Generative AI and AI-assisted technologies in the writing
+                                                                                                                modulator M (t)                            +
+                                                                                                                                                                 M = +1: reinforced
+                                                                                                                                                                 False alarm
+                                                                                                                                                                                                         4      Conclusion
+process
+                                                                                                                             broadcast                     −
+                                                                                                                                                                 M = −0.2: weakened
+During the preparation of this work the authors used Claude (Anthropic) and BioRender AI                                      wij                                Too late (override fired)
+in order to assist with layout, figure editing and text drafting; the accompanying website was         pre i                               post j          !     M = −1: “stay” weakened               In a field trial, drones cut antivenom delivery
+made entirely with AI tools as an exploratory addition. After using these tools, the authors
+                                                                                                                                                        GAIN SYNAPSES
+reviewed and edited the content as needed and take full responsibility for the content of the
+publication. Fig. 2 was created with BioRender.com.                                                            eligibility trace eij (t)                   ↑
+                                                                                                                                                                 Closer than target                    from up to 6 h by canoe to 35 min [4];
+                                                                                                                                                                 cmin < c∗: stronger
+References
+                                                                                                           local: pre/post spikes, fades
+                                                                                                                                                           ↓
+                                                                                                                                                                 Needless detour                       SpikeNav adds autonomous navigation to
+                                                                                                                                                                 cmin > c∗: weaker
+[1] WHO. Snakebite envenoming, fact sheet (accessed Nov. 2026).
+[2] Grados Vásquez, M. et al. (2026). Persistent spatial hotspots and socioeconomic                1 OFFLINE · before flight, simulator on GPU                                                         any point in range, even under the canopy.
+inequalities of snakebite envenoming in Peru: a nationwide spatiotemporal analysis,
+2010–2025. PLoS Negl. Trop. Dis. 20(9):e0014747.                                                          Simulate                                Score                        Adjust all weights      Implementable: off-the-shelf parts, ≈$1k per
+[3] Houcke, S. et al. (2023). Effect of the time to antivenom administration on recovery from       thousands of flights in                  rewards per flight,              backpropagation with
+snakebite envenoming-related coagulopathy in French Guiana. PLoS Negl. Trop. Dis.                       virtual forests                        crash penalty                 surrogate gradients [6]   drone excl. the SNN chip [14], scalable to
+17(4):e0011242.
+[4] WeRobotics (2017). Cargo drones deliver in the Amazon rainforest, blog, 13 Feb.
+[5] Liu, J. et al. (2026). OpenFlyV2: an onboard vision-language-action model for aerial
+                                                                                                   2 ONLINE · in flight, on chip (Loihi 2 [7]), after each avoidance                                   most drones; only the take-over policy is new.
+                                                                                                                                                                                       Update
+perception and navigation. Preprint, arXiv:2610.39287.
+[6] Richter, O. (2026). Spiking neuronal networks and learning, lecture slides, 27020
+                                                                                                       Spike timing
+                                                                                                       pre fires just
+                                                                                                                                     Mark
+                                                                                                                                trace e builds,
+                                                                                                                                                               Reward
+                                                                                                                                                           flight computer
+                                                                                                                                                                                   weight changes      Impact: antivenom within the 6 h window for
+Bioengineering, Neuro track, Lecture 3. DTU Compute.                                                                                                                                  by η M e,
+[7] Intel Labs (2021). Taking neuromorphic computing to the next level with Loihi 2,
+                                                                                                       before post?              fades in ∼1 s                 sends M
+                                                                                                                                                                                       clipped         remote villages. Weak spots: a VLM reached
+technology brief.
+[8] Prophesee. GenX320, product brief and sensor documentation.                                                                 ∆wij = η · M · eij                     [6]                             its goal in only 48 % of zero-shot real flights
+[9] Benewake. TFmini-S LiDAR, datasheet.
+[10] NVIDIA (2025). JetPack 6.2 brings Super Mode to Jetson Orin Nano and Orin NX
+modules, technical blog.
+                                                                                                   wij : weight, i → j               M : reward (Mtake, Mgain )        cmin : closest approach         [5]; in-flight learning is untested. Next: train in
+                                                                                                   eij : eligibility trace           η: small learning rate            c∗: target clearance
+[11] Leopard Imaging (2023). LI-IMX678-MIPI-118H, datasheet rev. 1.0.
+[12] Teledyne FLIR. LWIR Micro Thermal Camera Module Lepton.                                        vs. conventional Ours: three-factor rule                       Backprop retraining                 simulation, port to a commercial
+[13] DJI. Mavic 3, specifications.                                                                  Information      local spikes + one reward                     global error, full replay
+[14] Retail prices, Nov. 2026: OpenMV GenX320 module; Benewake TFmini-S; NVIDIA                     Runs in flight           yes, on chip                          no, offline GPU                     neuromorphic chip, field-test with Amazonian
+Jetson Orin Nano module.                                                                            Weak spots               less accurate, can overwrite          needs GPU and stored data
+Web sources [4, 7–14] last accessed 24 Nov. 2026.                                                                            skills [6]
+                                                                                                                                                                                                       health services.
+

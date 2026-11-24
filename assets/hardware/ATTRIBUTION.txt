@@ -1,0 +1,22 @@
+Official product imagery, retrieved 24 November 2026. Copyright remains with the respective manufacturers.
+
+genx320-openmv.jpg — OpenMV GENX320 Event Camera Module assembly (not the bare Prophesee sensor or CM2).
+Source: https://openmv.io/products/genx320-camera-module
+Image: https://openmv.io/cdn/shop/files/genx320-front_1000x.jpg?v=1739058623
+
+loihi2.jpg — Intel Loihi 2 chip illustration, extracted unchanged from page 1 of Intel's technology brief.
+Source: https://download.intel.com/newsroom/2021/new-technologies/neuromorphic-computing-loihi-2-brief.pdf
+
+tfmini-s.png — Benewake TFmini-S product photograph, extracted unchanged from page 1 of the datasheet.
+Source: https://en.benewake.com/uploadfiles/2024/04/20240426140025367.pdf
+
+jetson-kit.png — NVIDIA Jetson Orin Nano Developer Kit rendering, with carrier and cooling (not a bare module).
+Source: https://developer.nvidia.com/blog/develop-ai-powered-robots-smart-vision-systems-and-more-with-nvidia-jetson-orin-nano-developer-kit
+Image: https://developer-blogs.nvidia.com/wp-content/uploads/2023/03/jetson-orin-nano-developer-kit-3d-render--1024x576.png
+
+lepton.png — Manufacturer's Lepton family product image displayed on its Lepton 3.5 page.
+Source: https://oem.flir.com/products/lepton/?model=500-0771-01
+Image: https://oem.flir.com/globalassets/imported-assets/image/lepton-2.5---3.1---3.png
+
+No exact-model photograph of LI-IMX678-MIPI-118H could be independently downloaded; the site states this explicitly.
+The main system-concept.svg is an AI-authored vector conceptual illustration, not manufacturer product photography or a photograph of an implemented prototype.

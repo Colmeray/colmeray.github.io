@@ -1,6 +1,9 @@
 import { calculate } from './energy-model.mjs';
-import { t, localeFor } from './i18n.mjs?v=mission-launch-1';
-import { createModelSwitch } from './model-switch.mjs?v=mission-launch-1';
+import { t, localeFor } from './i18n.mjs';
+import { createModelSwitch } from './model-switch.mjs';
+import { initResearch } from './modules/research.mjs';
+import { calculateWeightChange } from './modules/learning-model.mjs';
+import { LEARNING_EXAMPLE } from './data/science.mjs';
 
 const form = document.querySelector('#energy-form');
 const inputs = [...form.querySelectorAll('input')];
@@ -11,6 +14,7 @@ const awakeLabel = document.querySelector('#awake-value');
 const mission = createModelSwitch(document.querySelector('.mission-explorer'));
 const rewards = [...document.querySelectorAll('[data-reward]')];
 const components = [...document.querySelectorAll('[data-component]')];
+const research = initResearch();
 let language = 'en';
 let reward = 1;
 let format;
@@ -25,7 +29,7 @@ function renderReward() {
   rewards.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.reward) === reward)));
   const key = reward === 1 ? 'rewardNeeded' : reward === -0.2 ? 'rewardFalse' : 'rewardMissed';
   document.querySelector('#reward-description').textContent = t(language, key);
-  document.querySelector('#reward-delta').textContent = 'Δw = ' + signed(reward * 0.1 * 0.8, 3);
+  document.querySelector('#reward-delta').textContent = 'Δw = ' + signed(calculateWeightChange(LEARNING_EXAMPLE.rate, reward, LEARNING_EXAMPLE.eligibility), 3);
 }
 
 function clearResults(message) {
@@ -103,6 +107,7 @@ function setLanguage(next, persist = false) {
   }
   document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === language)));
   mission.setLanguage(language);
+  research.setLanguage(language);
   renderReward();
   renderEnergy();
   if (persist) {

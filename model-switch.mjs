@@ -1,4 +1,4 @@
-import { t } from './i18n.mjs?v=mission-launch-1';
+import { t } from './i18n.mjs';
 import { getMissionFrame, MISSION_DURATION } from './mission-timeline.mjs';
 
 // Proposed command ownership. The flight controller stabilises in every mode.

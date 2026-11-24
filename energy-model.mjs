@@ -1,10 +1,7 @@
 // Power in W except the event-camera input (mW). Energy in Wh, speed in km/h.
 // Poster assumptions, not measured performance of an integrated drone.
-export const DEFAULTS = Object.freeze({
-  propulsion: 130, heavy: 10, awake: 10, camera: 3, snn: 1,
-  lidar: 0.7, lidarCount: 1, frame: 0.75, sleep: 0,
-  battery: 77, speed: 36, reserve: 20,
-});
+import { ENERGY_DEFAULTS } from './data/energy.mjs';
+export const DEFAULTS = ENERGY_DEFAULTS;
 
 export function calculate(values) {
   for (const key of ['propulsion', 'heavy', 'battery', 'speed']) {

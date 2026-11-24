@@ -6,17 +6,17 @@ const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-9,
 
 test('reproduces the new poster with a 1 W SNN, 10% duty and frame-camera gating', () => {
   const r = calculate(DEFAULTS);
-  near(r.baselineNavigation, 11.45);
-  near(r.navigation, 2.778);
-  near(r.baselinePower, 141.45);
-  near(r.totalPower, 132.778);
-  near(r.navigationSaving, (1 - 2.778 / 11.45) * 100);
+  near(r.baselineNavigation, 12.15);
+  near(r.navigation, 3.478);
+  near(r.baselinePower, 142.15);
+  near(r.totalPower, 133.478);
+  near(r.navigationSaving, (1 - 3.478 / 12.15) * 100);
   assert.deepEqual([130, 260, 650].map(propulsion =>
     Number(calculate({ ...DEFAULTS, propulsion }).rangeGain.toFixed(1))), [6.5, 3.3, 1.3]);
 });
 
 test('a second lidar adds one sensor to both architectures', () => {
-  const single = calculate(DEFAULTS);
+  const single = calculate({ ...DEFAULTS, lidarCount: 1 });
   const double = calculate({ ...DEFAULTS, lidarCount: 2 });
   near(double.baselinePower - single.baselinePower, 0.7);
   near(double.totalPower - single.totalPower, 0.7);
@@ -28,8 +28,8 @@ test('inactive and active phases average to the displayed navigation power', () 
     const r = calculate({ ...DEFAULTS, awake, sleep: 0.3 });
     near(r.navigation, r.sparseNavigation * (1 - awake / 100) + r.denseNavigation * awake / 100);
   }
-  near(calculate({ ...DEFAULTS, awake: 0 }).navigation, 1.703);
-  near(calculate({ ...DEFAULTS, awake: 100 }).navigation, 12.453);
+  near(calculate({ ...DEFAULTS, awake: 0 }).navigation, 2.403);
+  near(calculate({ ...DEFAULTS, awake: 100 }).navigation, 13.153);
 });
 
 test('full GPU duty produces a loss because SNN and event-camera overhead remains', () => {
@@ -42,9 +42,9 @@ test('full GPU duty produces a loss because SNN and event-camera overhead remain
 test('reserve, return journey and Wh/km use consistent units', () => {
   const r = calculate(DEFAULTS);
   near(r.usableEnergy, 61.6);
-  near(r.flightMinutes, 61.6 / 132.778 * 60);
+  near(r.flightMinutes, 61.6 / 133.478 * 60);
   near(r.radius * 2, 36 * r.flightMinutes / 60);
-  near(r.energyPerKm, 132.778 / 36);
+  near(r.energyPerKm, 133.478 / 36);
   near(r.flightMinutes / r.baselineMinutes - 1, r.rangeGain / 100);
 });
 
