@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { calculateDistances, proposedState } from '../modules/distance-model.mjs';
+import { calculateDistances } from '../modules/distance-model.mjs';
 import { calculateCost } from '../modules/cost-model.mjs';
 import { DISTANCE_PARAMETERS, EQUATIONS } from '../data/science.mjs';
 import { COST_ITEMS, EXCHANGE } from '../data/pricing.mjs';
@@ -35,11 +35,6 @@ test('hard limit stays an input, d_max stays unknown, and clearance requires str
 test('rejects negative, missing, zero-deceleration and non-finite physical inputs',()=>{
   for(const overrides of [{speed:-1},{reaction:-1},{deceleration:0},{deceleration:-1},{minimum:0},{clearance:0},{speed:NaN},{reaction:Infinity},{minimum:undefined}])
     assert.throws(()=>calculateDistances({...defaults,...overrides}),RangeError);
-});
-test('proposed control ownership: clear, threshold, looming and override',()=>{
-  assert.equal(proposedState(14,5.8,1),'cruise');assert.equal(proposedState(5.8,5.8,1),'avoidance');
-  assert.equal(proposedState(14,5.8,1,true),'avoidance');assert.equal(proposedState(.9,5.8,1),'override');
-  assert.throws(()=>proposedState(-1,5.8,1),RangeError);
 });
 test('unknown prices remain unknown: 400 + 399 + 164 = $963 subtotal, with 7 excluded lines',()=>{
   const r=calculateCost(COST_ITEMS,EXCHANGE.dkkPerUsd);

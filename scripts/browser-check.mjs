@@ -42,24 +42,12 @@ try {
   assert.match(await txt('#sensor-range-note'),/exceeds 12 m/);
   await fill('#distance-deceleration','0');
   assert.equal(await page.locator('#distance-error').isVisible(),true);
-  assert.equal(await txt('#switch-result'),'—');assert.equal(await page.locator('#signal-play').isDisabled(),true);
+  assert.equal(await txt('#switch-result'),'—');
   await fill('#distance-deceleration','5');await fill('#distance-clearance','1');
   assert.equal(await page.locator('#clearance-note').getAttribute('data-valid'),'false');
   await page.locator('#distance-form button[type=reset]').click();
   await page.waitForFunction(()=>document.querySelector('#switch-result').textContent==='5.80');
   check('manual distance example, physical validation and reset');
-
-  const setObstacle=async(value)=>page.locator('#obstacle-distance').evaluate((el,value)=>{el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));},value);
-  await setObstacle('4');assert.equal(await page.locator('#live-lab').getAttribute('data-state'),'avoidance');
-  assert.match(await txt('#signal-command'),/SNN/);assert.equal(await txt('#sim-gpu'),'Inactive');
-  await setObstacle('0.5');assert.equal(await page.locator('#live-lab').getAttribute('data-state'),'override');
-  assert.equal(await txt('#sim-gpu'),'Requested on');
-  await fill('#clear-dwell','0.1');await setObstacle('14');
-  assert.match(await txt('#signal-sensor'),/Beyond 12 m specification/);
-  await page.waitForFunction(()=>document.querySelector('#live-lab').dataset.state==='cruise');
-  await page.locator('#looming').check();assert.equal(await page.locator('#live-lab').getAttribute('data-state'),'avoidance');
-  await page.locator('#looming').uncheck();
-  check('avoidance, safety fallback, clearance dwell and looming');
 
   await fill('#price-neuromorphic','500');assert.equal(await txt('#cost-usd'),'$1,463');
   assert.match(await txt('[data-price-basis="neuromorphic"]'),/User engineering/);

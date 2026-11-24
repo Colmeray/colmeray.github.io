@@ -17,12 +17,3 @@ export function calculateDistances({ speed, reaction, deceleration, minimum, cle
     exceedsDarkRange: switchDistance > 7,
   };
 }
-
-// The labels are conceptual proposed logic, not flight dynamics or real inference.
-export function proposedState(distance, switchDistance, minimum, looming = false) {
-  if (![distance, switchDistance, minimum].every(Number.isFinite)
-    || minimum <= 0 || switchDistance < minimum || distance < 0) throw new RangeError('Invalid thresholds');
-  if (distance < minimum) return 'override';
-  if (looming || distance <= switchDistance) return 'avoidance';
-  return 'cruise';
-}

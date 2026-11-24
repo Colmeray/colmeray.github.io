@@ -19,8 +19,7 @@ English is the default. EN/DA preserves calculator inputs, selected components a
 - The full AI disclosure appears above navigation. **View the original AI prompt** opens an accessible dialog displaying `original-prompt.txt` without rewriting. Escape closes it and returns focus. The file includes the user request, supplied file context and original formatting; it excludes private system/developer instructions.
 - A labelled AI-authored SVG depicts the proposed payload, two narrow LiDAR paths, event sensing, RGB/thermal input, Loihi 2, on-demand GPU and the logical avoidance path into the conventional flight controller. Coverage and placement are schematic.
 - An interactive architecture diagram explains signal paths and separates command selection from continuously active stabilization. Each block opens a sourced explanation.
-- The distance laboratory renders the poster equation with local KaTeX, pairs sliders and numerical inputs, displays intermediate terms, plots switching distance versus speed, and shares parameters with a synthetic obstacle demonstration. Invalid physical inputs and target-clearance ordering disable that demonstration.
-- The signal demonstration shows sparse mode, SNN take-over, looming triggers, hard-limit fallback and the proposed clearance dwell. Its raster and commands are illustrative. It does not run a trained network or validated aircraft dynamics.
+- The distance laboratory renders the poster equation with local KaTeX, pairs sliders and numerical inputs, displays intermediate terms, plots switching distance versus speed, and validates physical inputs and target-clearance ordering.
 - The original four-state, 24-second mission remains playable, pausable and seekable. Scripted timing is separate from the energy budget. The safety-fallback phase holds position.
 - Six structured hardware records distinguish exact variants, chips, modules and development kits. They include sourced specifications, verified imagery where available, mass/power information, limitations and source links. Missing information is explicit.
 - The energy calculator now defaults to the poster's **two LiDARs**. It preserves editable sleep power, battery, reserve, speed and one/two-LiDAR alternatives, with their assumptions identified.
@@ -48,7 +47,7 @@ d_min < c* < d_switch
 | v=4, t_r=0.2, a=2, d_min=1 | 0.8 m | 4 m | 5.8 m |
 | v=10, t_r=0.3, a=5, d_min=2 | 3 m | 10 m | 15 m |
 
-The latter exceeds TFmini-S's conditional 12 m range at 90% reflectivity. Its 7 m range at 10% reflectivity is separately flagged. Neither is d_max or guaranteed obstacle detection. The 2 s clearance dwell is a demonstration assumption.
+The latter exceeds TFmini-S's conditional 12 m range at 90% reflectivity. Its 7 m range at 10% reflectivity is separately flagged. Neither is d_max or guaranteed obstacle detection.
 
 ### Energy
 
@@ -124,7 +123,7 @@ Manrope: SIL Open Font License, `assets/fonts/OFL.txt`. KaTeX: MIT, `assets/vend
 npm test
 ```
 
-25 individual model/integrity tests cover manual calculations, units, two-LiDAR power, reserve/return distance, switching, invalid inputs, missing costs, quantities, currency conversion, reward examples, equation rendering, source relationships and preserved mission timing.
+24 individual model/integrity tests cover manual calculations, units, two-LiDAR power, reserve/return distance, switching, invalid inputs, missing costs, quantities, currency conversion, reward examples, equation rendering, source relationships and preserved mission timing.
 
 For browser QA, install development-only dependencies and Chromium, start the preview in another terminal, then run:
 
@@ -134,6 +133,6 @@ npx playwright install chromium
 npm run test:browser
 ```
 
-The browser suite checks prompt-file fidelity and keyboard behaviour, distance/cost calculations and validation, avoidance/fallback/looming/dwell, JSON export, hardware panels, both learning populations, original mission controls, citations, both languages, responsive controls at 320/390/768/1440 px, internal anchors and JavaScript errors. It also runs an automated WCAG A/AA axe scan. Automated checks supplement scientific and visual review; they do not establish flight safety or full accessibility conformance.
+The browser suite checks prompt-file fidelity and keyboard behaviour, distance/cost calculations and validation, JSON export, hardware panels, both learning populations, original mission controls, citations, both languages, responsive controls at 320/390/768/1440 px, internal anchors and JavaScript errors. It also runs an automated WCAG A/AA axe scan. Automated checks supplement scientific and visual review; they do not establish flight safety or full accessibility conformance.
 
 Changes are local to this repository. These scripts do not deploy or push Git commits.

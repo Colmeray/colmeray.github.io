@@ -1,5 +1,5 @@
 import { DISTANCE_PARAMETERS, EQUATIONS } from '../data/science.mjs';
-import { calculateDistances, proposedState } from './distance-model.mjs';
+import { calculateDistances } from './distance-model.mjs';
 import { localized as l, citation as cite, tr, number, renderMath } from './ui.mjs';
 
 const labels = {
@@ -26,121 +26,28 @@ export function distanceMarkup() {
         <p id="sensor-range-note" class="field-hint"></p><p id="clearance-note" class="validation-note" role="status"></p>
       </div>
     </div>
-    <div class="live-lab science-panel" id="live-lab" data-state="cruise"><div class="panel-heading"><div><p class="eyebrow">${l('FOLLOW THE SIGNAL','FØLG SIGNALET')}</p><h3>${l('Bring an obstacle closer','Flyt en forhindring tættere på')}</h3></div><button id="signal-play" class="small-button" type="button" aria-pressed="false">${l('Play signal sequence','Afspil signalsekvens')}</button></div>
-      <p class="simulation-notice">Illustrative simulation — not an experimentally validated flight model.</p>
-      <div class="proximity-controls"><label for="obstacle-distance">${l('Synthetic obstacle distance','Syntetisk afstand til forhindring')} <output id="obstacle-value">14.00 m</output></label><input type="range" id="obstacle-distance" min="0" max="20" step="0.05" value="14"><label class="looming-toggle"><input type="checkbox" id="looming">${l('Illustrate SNN looming detection','Illustrér SNN-detektion af nærmende objekt')}</label></div>
-      <svg class="proximity-scene" viewBox="0 0 900 200" role="img" aria-labelledby="proximity-title"><title id="proximity-title">Schematic relative obstacle position and switching thresholds; not a flight trajectory</title><defs><pattern id="proximity-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" stroke="#dce2d5" stroke-width=".7"/></pattern></defs><rect width="900" height="200" fill="url(#proximity-grid)"/><rect id="hard-zone" x="100" y="20" height="145" fill="#b000001c"/><rect id="takeover-zone" y="20" height="145" fill="#d7e3cf70"/><path d="M100 165H870" stroke="#84927a"/><path id="minimum-marker" stroke="#b00000" stroke-dasharray="3 5"/><path id="switch-marker" stroke="#58744e" stroke-dasharray="3 5"/><g transform="translate(100 93)" stroke="#5e7054" stroke-width="3"><path d="m-20-8 40 16m-40 0 40-16"/><ellipse cx="-26" cy="-12" rx="19" ry="5"/><ellipse cx="26" cy="-12" rx="19" ry="5"/><ellipse cx="-26" cy="12" rx="19" ry="5"/><ellipse cx="26" cy="12" rx="19" ry="5"/><rect x="-10" y="-8" width="20" height="17" fill="#b00000" stroke="#b00000" rx="3"/></g><g id="obstacle-marker"><rect x="-7" y="49" width="14" height="95" rx="4" fill="#7a8f70"/><path d="m-25 65 18 10m32-10-18 10" stroke="#617655" stroke-width="3"/></g><g class="plot-labels"><text x="52" y="190">0 m</text><text x="750" y="190" id="scene-scale"></text></g></svg>
-      <div class="threshold-labels"><span class="mono">d_min <b id="scene-min"></b></span><span class="mono">c* <b id="scene-clearance"></b></span><span class="mono">d_switch <b id="scene-switch"></b></span></div>
-      <div class="signal-chain"><div class="signal-node sensor"><span>${l('SENSOR INPUT','SENSORINPUT')}</span><strong id="signal-sensor"></strong></div><span class="flow-connector" aria-hidden="true"></span><div class="signal-node snn"><span>${l('SPIKING NETWORK','SPIKENDE NETVÆRK')}</span><strong id="signal-snn"></strong><svg id="spike-raster" viewBox="0 0 180 36" aria-hidden="true"></svg></div><span class="flow-connector" aria-hidden="true"></span><div class="signal-node command"><span>${l('COMMAND SOURCE','KOMMANDOKILDE')}</span><strong id="signal-command"></strong></div><span class="flow-connector" aria-hidden="true"></span><div class="signal-node controller"><span>${l('FLIGHT CONTROLLER','FLYVECONTROLLER')}</span><strong>${l('Stabilization active','Stabilisering aktiv')}</strong></div></div>
-      <div class="simulation-explanation"><div><span id="sim-state" class="evidence-tag proposed"></span><p id="sim-explanation"></p></div><div class="gpu-indicator"><span>GPU + VLM</span><strong id="sim-gpu"></strong></div></div><p id="sim-status" class="sr-only" role="status" aria-live="polite"></p><p class="field-hint">${l('Distances share the calculator above. The spike raster and corrective commands are scripted illustrations. Out-of-range distances are synthetic scenario values, not LiDAR returns. N = 2 s of clearance is an editable demonstration assumption, not a poster value. A looming signal can request take-over outside d_switch. Planned descent is a separate proposed trigger.','Afstandene følger beregneren ovenfor. Spikegrafen og korrektive kommandoer er illustrationer. Afstande uden for sensorens specifikationer er syntetiske scenarieværdier, ikke LiDAR-målinger. N = 2 s med fri bane er en redigerbar demoantagelse, ikke en posterværdi. Looming kan anmode om overtagelse uden for d_switch. Planlagt nedstigning er en separat foreslået udløser.')} ${cite('poster')}</p><label class="dwell-field" for="clear-dwell">${l('Clearance dwell · N','Ventetid med fri bane · N')}<input id="clear-dwell" type="number" min="0.1" max="10" step="any" value="2">s</label>
-    </div>
   </section>`;
 }
 
 export function setupDistance() {
   const form = document.querySelector('#distance-form');
-  const root = document.querySelector('#live-lab');
-  const obstacle = document.querySelector('#obstacle-distance');
-  const looming = document.querySelector('#looming');
-  const dwell = document.querySelector('#clear-dwell');
-  const play = document.querySelector('#signal-play');
-  let calculation;
-  let values;
-  let valid = true;
-  let previous = 'cruise';
-  let clearSince = null;
-  let animation = null;
-  let playing = false;
-  let started = 0;
-  let lastState = '';
   const element = id => document.getElementById(id);
   const put = (id, value) => { element(id).textContent = value; };
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-
-  function stop() {
-    playing = false;
-    if (animation !== null) cancelAnimationFrame(animation);
-    animation = null;
-    play.setAttribute('aria-pressed','false');
-    play.textContent = tr('Play signal sequence','Afspil signalsekvens');
-  }
-
-  function renderSimulation(announce=false) {
-    if (!valid || !calculation?.clearanceValid || !dwell.validity.valid || !Number.isFinite(dwell.valueAsNumber)) {
-      stop();
-      root.dataset.state = 'invalid';
-      put('sim-state',tr('Configuration needs attention','Konfigurationen skal justeres'));
-      put('sim-explanation',tr('Correct the marked inputs before exploring the proposed response.','Ret de markerede input for at udforske den foreslåede reaktion.'));
-      for (const id of ['signal-sensor','signal-snn','signal-command','sim-gpu']) put(id,'—');
-      element('spike-raster').replaceChildren();
-      play.disabled = true;
-      return;
-    }
-    play.disabled = false;
-    const distance = obstacle.valueAsNumber;
-    let state = proposedState(distance, calculation.switchDistance, values.minimum, looming.checked);
-    if (state === 'cruise' && previous !== 'cruise') {
-      if (clearSince === null) clearSince = performance.now();
-      if (performance.now() - clearSince < dwell.valueAsNumber * 1000) state = 'clearing';
-    } else if (state !== 'cruise') clearSince = null;
-    if (state !== 'clearing') previous = state;
-    root.dataset.state = state;
-    const title = {
-      cruise:tr('Sparse mode','Sparsom tilstand'), avoidance:tr('SNN take-over','SNN overtager'),
-      override:tr('Safety override','Sikkerhedsfallback'), clearing:tr('Waiting for a clear route','Venter på fri bane'),
-    }[state];
-    const description = {
-      cruise:tr('Autopilot follows waypoints. The SNN watches; the GPU and frame cameras are inactive in the poster’s power assumption.','Autopiloten følger waypoints. SNN’et overvåger; GPU og billedkameraer er inaktive i posterens effektantagelse.'),
-      avoidance:tr('The SNN would supply corrective velocity commands to the flight controller. This schematic shows command ownership; it does not calculate a collision-free trajectory.','SNN’et skal levere korrigerende hastighedskommandoer til flyvecontrolleren. Skitsen viser kommandokilden; den beregner ikke en kollisionsfri bane.'),
-      override:tr('The fixed hard limit has been reached. The poster proposes stop/hover and GPU activation so the VLM can plan a route out. Successful braking or hovering is not demonstrated here.','Den faste grænse er nået. Posteren foreslår stop/hover og GPU-aktivering, så VLM kan planlægge en vej ud. Vellykket bremsning eller hover demonstreres ikke her.'),
-      clearing:tr('Hold the avoidance/fallback command source until the route has been clear for N seconds. This example then hands control back to the waypoint autopilot.','Behold undvigelses-/fallbackkommandoerne, indtil ruten har været fri i N sekunder. Derefter leverer autopiloten igen waypointkommandoer.'),
-    }[state];
-    put('obstacle-value',number(distance)+' m');
-    const sensorLabel=distance<0.1
-      ? tr('Below 0.1 m specification','Under specifikationen på 0,1 m')
-      : distance>12
-        ? tr('Beyond 12 m specification','Uden for specifikationen på 12 m')
-        : number(distance)+' m'+(distance>7 ? tr(' · reflectivity-dependent',' · afhænger af reflektivitet') : '');
-    put('signal-sensor',sensorLabel+(looming.checked ? ' · looming' : ''));
-    put('signal-snn',state === 'cruise' ? tr('Watching','Overvåger') : state === 'override' ? tr('Override event','Fallbackhændelse') : tr('Avoidance activity','Undvigelsesaktivitet'));
-    put('signal-command',state === 'cruise' ? tr('Waypoint autopilot','Waypoint-autopilot') : state === 'override' || (state === 'clearing' && previous === 'override') ? tr('Stop / hover request','Stop-/hoveranmodning') : tr('SNN velocity request','SNN-hastighedsanmodning'));
-    put('sim-state',title); put('sim-explanation',description);
-    put('sim-gpu',state === 'override' || (state === 'clearing' && previous === 'override') ? tr('Requested on','Anmodet aktiveret') : tr('Inactive','Inaktiv'));
-    const scale = Math.max(20,calculation.switchDistance*1.15);
-    obstacle.max = String(Math.ceil(scale));
-    const position = d => 100+Math.min(d/scale,1)*750;
-    element('hard-zone').setAttribute('width',String(position(values.minimum)-100));
-    element('takeover-zone').setAttribute('x',String(position(values.minimum)));
-    element('takeover-zone').setAttribute('width',String(position(calculation.switchDistance)-position(values.minimum)));
-    element('minimum-marker').setAttribute('d',`M${position(values.minimum)} 20V165`);
-    element('switch-marker').setAttribute('d',`M${position(calculation.switchDistance)} 20V165`);
-    element('obstacle-marker').setAttribute('transform',`translate(${position(distance)} 0)`);
-    put('scene-scale',number(scale,1)+' m'); put('scene-min',number(values.minimum)+' m');
-    put('scene-clearance',number(values.clearance)+' m'); put('scene-switch',number(calculation.switchDistance)+' m');
-    const dense = state !== 'cruise';
-    element('spike-raster').innerHTML = Array.from({length:dense ? 26 : 7},(_,i) => {
-      const x=5+(i*37)%170, y=4+(i*11)%27;
-      return `<path d="M${x} ${y+5}v-5l2-3 2 8h5"/>`;
-    }).join('');
-    if ((announce || lastState !== state) && !playing) put('sim-status',title+'. '+description);
-    lastState = state;
-  }
 
   function render() {
-    values = Object.fromEntries(Object.keys(DISTANCE_PARAMETERS).map(key => [key,form.elements[key].valueAsNumber]));
+    const values = Object.fromEntries(Object.keys(DISTANCE_PARAMETERS).map(key => [key,form.elements[key].valueAsNumber]));
     const invalid = [...form.querySelectorAll('input[type=number]')].filter(input => !input.validity.valid || !Number.isFinite(input.valueAsNumber));
     [...form.querySelectorAll('input[type=number]')].forEach(input=>input.setAttribute('aria-invalid',String(invalid.includes(input))));
-    valid = invalid.length === 0;
-    if (!valid) {
-      stop(); element('distance-error').hidden = false;
+    if (invalid.length) {
+      element('distance-error').hidden = false;
       put('distance-error',tr('Enter finite numbers within the displayed ranges. Deceleration and distances must be positive.','Indtast endelige tal inden for de viste intervaller. Deceleration og afstande skal være positive.'));
       for (const id of ['switch-result','minimum-result','step-reaction','step-braking','step-minimum','distance-substitution']) put(id,'—');
       element('switch-curve').setAttribute('points',''); element('current-point').setAttribute('visibility','hidden');
       element('minimum-curve').setAttribute('d','');
       put('clearance-note',''); put('sensor-range-note','');
-      renderSimulation(); return;
+      return;
     }
-    calculation = calculateDistances(values);
+    const calculation = calculateDistances(values);
     element('distance-error').hidden = true;
     put('switch-result',number(calculation.switchDistance)); put('minimum-result',number(values.minimum)+' m');
     put('step-reaction',number(calculation.reactionDistance)+' m');
@@ -157,47 +64,22 @@ export function setupDistance() {
     form.elements.clearance.setAttribute('aria-invalid',String(!calculation.clearanceValid));
     put('clearance-note',calculation.clearanceValid
       ? tr('Ordering holds: d_min < c* < d_switch. This checks only the proposed threshold ordering.','Rækkefølgen gælder: d_min < c* < d_switch. Dette kontrollerer kun den foreslåede rækkefølge.')
-      : tr('Invalid target clearance: the poster requires d_min < c* < d_switch. Adjust c*, speed or the other assumptions; the demonstration is disabled.','Ugyldig målafstand: posteren kræver d_min < c* < d_switch. Justér c*, hastighed eller øvrige antagelser; demonstrationen er deaktiveret.'));
+      : tr('Invalid target clearance: the poster requires d_min < c* < d_switch. Adjust c*, speed or the other assumptions to satisfy this ordering.','Ugyldig målafstand: posteren kræver d_min < c* < d_switch. Justér c*, hastighed eller øvrige antagelser for at opfylde rækkefølgen.'));
     put('sensor-range-note',calculation.exceedsBrightRange
       ? tr('Threshold exceeds 12 m, the TFmini-S datasheet range at 90% reflectivity. Detection at this threshold is not supported by that sensor specification.','Grænsen overstiger 12 m, TFmini-S-databladets rækkevidde ved 90 % reflektivitet. Detektion ved denne grænse understøttes ikke af specifikationen.')
       : calculation.exceedsDarkRange
         ? tr('Threshold exceeds the specified 7 m range for a 10%-reflective target. The 12 m figure applies to 90% reflectivity. Neither is d_max.','Grænsen overstiger 7 m for et mål med 10 % reflektivitet. 12 m gælder ved 90 % reflektivitet. Ingen af værdierne er d_max.')
         : tr('TFmini-S reference ranges: 7 m at 10% reflectivity; 12 m at 90%, under datasheet conditions. Narrow 2° coverage and real detection uncertainty are not modelled. Neither range defines d_max.','TFmini-S-reference: 7 m ved 10 % og 12 m ved 90 % reflektivitet under databladets betingelser. Det smalle synsfelt på 2° og detektionsusikkerhed modelleres ikke. Ingen af rækkevidderne definerer d_max.'));
-    renderSimulation();
   }
   form.querySelectorAll('[data-pair]').forEach(slider=>slider.addEventListener('input',()=>{
-    stop(); form.elements[slider.dataset.pair].value=slider.value; render();
+    form.elements[slider.dataset.pair].value=slider.value; render();
   }));
   form.querySelectorAll('input[type=number]').forEach(input=>input.addEventListener('input',()=>{
-    stop();
     if (input.validity.valid && Number.isFinite(input.valueAsNumber)) form.querySelector(`[data-pair="${input.name}"]`).value=input.value;
     render();
   }));
-  form.addEventListener('reset',()=>requestAnimationFrame(()=>{ stop(); render(); }));
+  form.addEventListener('reset',()=>requestAnimationFrame(render));
   form.addEventListener('submit',event=>{event.preventDefault();render();});
-  obstacle.addEventListener('input',()=>{stop(); renderSimulation(true);});
-  looming.addEventListener('change',()=>{stop();renderSimulation(true);});
-  dwell.addEventListener('input',()=>{dwell.setAttribute('aria-invalid',String(!dwell.validity.valid));clearSince=null;renderSimulation();});
-  play.addEventListener('click',()=>{
-    if (playing) {stop();return;}
-    playing=true; started=performance.now(); clearSince=null; previous='cruise'; looming.checked=false;
-    play.setAttribute('aria-pressed','true'); play.textContent=tr('Pause sequence','Sæt på pause');
-    function tick(now) {
-      const elapsed=(now-started)/1000;
-      if (elapsed >= 18) {stop();return;}
-      const phase=Math.floor(elapsed/4);
-      // Explicitly scripted stages; these positions do not integrate speed or acceleration.
-      obstacle.value=String(phase===0 || phase>=3 ? Math.min(Number(obstacle.max),calculation.switchDistance+5) : phase===1 ? (values.minimum+calculation.switchDistance)/2 : values.minimum*0.75);
-      renderSimulation();
-      animation=requestAnimationFrame(tick);
-    }
-    animation=requestAnimationFrame(tick);
-  });
-  const timer=setInterval(()=>{if(clearSince!==null && !playing && !document.hidden)renderSimulation();},200);
-  document.addEventListener('visibilitychange',()=>{ if(document.hidden){stop();clearSince=null;} });
-  window.addEventListener('pagehide',()=>{stop();clearInterval(timer);});
-  reducedMotion.addEventListener('change',stop);
-  if ('IntersectionObserver' in window) new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)stop();}).observe(root);
   renderMath(element('distance')); render();
-  return { render(){stop();render();} };
+  return { render };
 }
