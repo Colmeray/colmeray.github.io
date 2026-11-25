@@ -1,7 +1,7 @@
 import { calculate } from './energy-model.mjs';
 import { t, localeFor } from './i18n.mjs';
 import { createModelSwitch } from './model-switch.mjs';
-import { initResearch } from './modules/research.mjs';
+import { initResearch } from './modules/research.mjs?v=architecture-removed-1';
 import { calculateWeightChange } from './modules/learning-model.mjs';
 import { LEARNING_EXAMPLE } from './data/science.mjs';
 
