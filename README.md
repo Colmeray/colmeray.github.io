@@ -18,7 +18,6 @@ English is the default. EN/DA preserves calculator inputs, selected components a
 
 - The full AI disclosure appears above navigation. **View the original AI prompt** opens an accessible dialog displaying `original-prompt.txt` without rewriting. Escape closes it and returns focus. The file includes the user request, supplied file context and original formatting; it excludes private system/developer instructions.
 - A labelled AI-authored SVG depicts the proposed payload, two narrow LiDAR paths, event sensing, RGB/thermal input, Loihi 2, on-demand GPU and the logical avoidance path into the conventional flight controller. Coverage and placement are schematic.
-- An interactive architecture diagram explains signal paths and separates command selection from continuously active stabilization. Each block opens a sourced explanation. On narrow screens, three stage selectors show full-width sensor, processing and control blocks.
 - The distance laboratory renders the poster equation with local KaTeX, pairs sliders and numerical inputs, displays intermediate terms, plots switching distance versus speed, and validates physical inputs and target-clearance ordering.
 - The original four-state, 24-second mission remains playable, pausable and seekable. Scripted timing is separate from the energy budget. The safety-fallback phase holds position.
 - Six structured hardware records distinguish exact variants, chips, modules and development kits. They include sourced specifications, verified imagery where available, mass/power information, limitations and source links. Missing information is explicit.
@@ -109,7 +108,7 @@ Direct retrieval of canonical Intel and Mouser downloads was blocked. Intel's of
 | `data/link-review.json` | Dated direct link retrieval results |
 | `data/poster-transcript.txt` | Full transcript of the supplied poster |
 | `modules/*-model.mjs` | Pure calculations separated from browser rendering |
-| `modules/*-view.mjs` | Calculators, architecture and learning interactions |
+| `modules/*-view.mjs` | Calculators and learning interactions |
 | `modules/research.mjs` | Source ledger, product panels and prompt viewer |
 | `Script.js`, `model-switch.mjs`, `mission-timeline.mjs` | Preserved energy and mission functionality |
 | `i18n.mjs` | English and Danish translations with updated-poster corrections |

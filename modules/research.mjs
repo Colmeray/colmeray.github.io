@@ -3,7 +3,6 @@ import { REFERENCE_DA } from '../data/reference-translations.mjs';
 import { setupScenarioNotes } from './scenario-notes.mjs';
 import { HARDWARE } from '../data/hardware.mjs';
 import { SCIENTIFIC_GAPS, EQUATIONS } from '../data/science.mjs';
-import { architectureMarkup, setupArchitecture } from './architecture-view.mjs';
 import { distanceMarkup, setupDistance } from './distance-view.mjs';
 import { costMarkup, setupCost } from './cost-view.mjs';
 import { setupClearanceLearning } from './learning-view.mjs';
@@ -86,10 +85,9 @@ function setupPrompt(){
 
 export function initResearch(){
   document.querySelector('.hero').insertAdjacentHTML('afterend',integrityMarkup());
-  document.querySelector('#mission').insertAdjacentHTML('beforebegin',architectureMarkup()+distanceMarkup());
+  document.querySelector('#mission').insertAdjacentHTML('beforebegin',distanceMarkup());
   document.querySelector('#project').insertAdjacentHTML('beforebegin',costMarkup()+referencesMarkup());
   document.querySelector('[data-i18n="contextText"]').insertAdjacentHTML('afterend',`<p class="context-citations">${cite('2','3','4')}</p>`);
-  const architecture=setupArchitecture();
   const distance=setupDistance();
   const cost=setupCost();
   const references=setupReferences();
@@ -103,7 +101,7 @@ export function initResearch(){
   return {
     setLanguage(language){
       setUiLanguage(language);
-      renderHardware(); architecture.render(); distance.render(); cost.render(); references.render(); learning.render(); scenarios.render(); renderMath();
+      renderHardware(); distance.render(); cost.render(); references.render(); learning.render(); scenarios.render(); renderMath();
     },
   };
 }
